@@ -1,4 +1,4 @@
-package com.sam.gogolife
+package com.sam.gogoeat
 
 import org.junit.Test
 
