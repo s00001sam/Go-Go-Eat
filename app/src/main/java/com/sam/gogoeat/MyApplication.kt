@@ -12,6 +12,6 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        MyApplication.appContext = applicationContext
+        appContext = applicationContext
     }
 }

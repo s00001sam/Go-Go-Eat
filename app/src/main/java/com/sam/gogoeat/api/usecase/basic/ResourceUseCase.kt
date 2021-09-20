@@ -58,6 +58,9 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
                     is NewsResp<*> -> {
                         processNewsRespResource(body as NewsResp<ResponseValue>)
                     }
+                    is MapResp<*> -> {
+                        processMapRespResource(body as MapResp<ResponseValue>)
+                    }
                     else -> {
                         Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, "wrong format type")
                     }
@@ -86,5 +89,13 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
         else
             Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.message
                     ?: "processNewsRespResource, empty error")
+    }
+
+    private fun processMapRespResource(response: MapResp<ResponseValue>): Resource<ResponseValue> {
+        return if (response.isSuccess())
+            Resource.success(response.data)
+        else
+            Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.error_message
+                ?: "processMapRespResource, empty error")
     }
 }
