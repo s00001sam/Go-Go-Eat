@@ -8,7 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
+import com.sam.gogoeat.view.nearby.NearbyFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -32,6 +38,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getNearbyFoods()
         observeFlows()
+        setTabAndViewPager()
     }
     
     private fun observeFlows() {
@@ -40,6 +47,24 @@ class HomeFragment : Fragment() {
                 Log.d("sam","sam00 foods result=${it}")
             }
         }
+    }
+
+    private fun setTabAndViewPager() {
+        val tabLayout: TabLayout = binding.mainTablayout
+        val viewPager: ViewPager2 = binding.mainViewpager
+        val viewPagerAdapter = MainViewPagerAdapter(this)
+        viewPagerAdapter.addFragment(NearbyFragment())
+        viewPagerAdapter.addFragment(LotteryHistoryFragment())
+        viewPager.apply {
+            adapter = viewPagerAdapter
+            (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        }
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            tab.text = when (position) {
+                0 -> "Nearby"
+                else -> "History"
+            }
+        }.attach()
     }
 
 }
