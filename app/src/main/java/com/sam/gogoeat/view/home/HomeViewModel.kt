@@ -4,9 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sam.gogoeat.api.resp.base.Resource
 import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
-import com.sam.gogoeat.api.usecase.GetTopHeadlinesData
-import com.sam.gogoeat.data.Article
-import com.sam.gogoeat.data.HeadlineReq
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceReq
 import dagger.hilt.android.lifecycle.HiltViewModel

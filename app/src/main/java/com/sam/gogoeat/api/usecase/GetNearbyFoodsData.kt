@@ -2,10 +2,7 @@ package com.sam.gogoeat.api.usecase
 
 import com.sam.gogoeat.api.repository.Repository
 import com.sam.gogoeat.api.resp.MapResp
-import com.sam.gogoeat.api.resp.NewsResp
 import com.sam.gogoeat.api.resp.base.Resource
-import com.sam.gogoeat.data.Article
-import com.sam.gogoeat.data.HeadlineReq
 import com.sam.gogoeat.api.usecase.basic.ResourceUseCase
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceReq

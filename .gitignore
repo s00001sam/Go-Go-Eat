@@ -13,5 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/res/values/news_key.xml
 /app/src/main/res/values/map_key.xml

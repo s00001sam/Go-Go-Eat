@@ -55,9 +55,6 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
                     is BaseResp<*> -> {
                         processBaseRespResource(body as BaseResp<ResponseValue>)
                     }
-                    is NewsResp<*> -> {
-                        processNewsRespResource(body as NewsResp<ResponseValue>)
-                    }
                     is MapResp<*> -> {
                         processMapRespResource(body as MapResp<ResponseValue>)
                     }
@@ -81,14 +78,6 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
             Resource.error(response.status?.code
                     ?: StatusCode.CODE_ERROR_JSON_ERROR, response.status?.msg
                     ?: "processBaseRespResource, empty error")
-    }
-
-    private fun processNewsRespResource(response: NewsResp<ResponseValue>): Resource<ResponseValue> {
-        return if (response.isSuccess())
-            Resource.success(response.data)
-        else
-            Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.message
-                    ?: "processNewsRespResource, empty error")
     }
 
     private fun processMapRespResource(response: MapResp<ResponseValue>): Resource<ResponseValue> {
