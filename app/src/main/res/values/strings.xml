@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">gogoEat</string>
     <string name="app_title">gogoEat</string>
+
+    <string name="text_is_open">營業中</string>
+    <string name="text_is_not_open">休息中</string>
 </resources>

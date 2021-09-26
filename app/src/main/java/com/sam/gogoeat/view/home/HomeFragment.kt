@@ -37,17 +37,12 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getNearbyFoods()
         observeFlows()
         setTabAndViewPager()
     }
     
     private fun observeFlows() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.nearbyFoodResult.collect {
-                Log.d("sam", "sam00 foods result=${it}")
-            }
-        }
+
     }
 
     private fun setTabAndViewPager() {

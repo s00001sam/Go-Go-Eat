@@ -11,15 +11,15 @@ data class PlaceData(
     val icon: String? = null,
     val icon_background_color: String? = null,
     val icon_mask_base_uri: String? = null,
-    val name: String? = null,
+    val name: String = "",
     val opening_hours: OpeningHours? = null,
     val photos: @RawValue List<Photo>? = null,
     val place_id: String? = null,
     val plus_code: PlusCode? = null,
-    val rating: Double? = null,
+    val rating: Double = 0.0,
     val reference: String? = null,
     val scope: String? = null,
     val types: @RawValue List<String>? = null,
-    val user_ratings_total: Int? = null,
+    val user_ratings_total: Int = 0,
     val vicinity: String? = null
 ): Parcelable

@@ -15,11 +15,13 @@
         tools:context=".view.nearby.NearbyFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcy_nearby"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            android:layoutAnimation="@anim/layout_animation_fall_down"/>
+            android:layoutAnimation="@anim/layout_animation_slide_right"
+            tools:listitem="@layout/item_store_rcy"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

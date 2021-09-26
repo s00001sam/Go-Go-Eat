@@ -24,4 +24,7 @@
     <color name="dark_blue">#126591</color>
     <color name="blue">#2621C3</color>
     <color name="dark_brown">#641E16</color>
+    <color name="black_3f3a3a">#3f3a3a</color>
+    <color name="gray_999999">#999999</color>
+    <color name="colorDivider">#BDBDBD</color>
 </resources>

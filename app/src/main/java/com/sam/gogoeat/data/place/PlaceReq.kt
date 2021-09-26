@@ -11,14 +11,15 @@ data class PlaceReq (
     var key: String? = null
 ) {
     companion object {
-        private const val FOOD_TYPE = "food"
+        private const val TYPE_FOOD = "food"
+        private const val TYPE_RESTAURANT = "restaurant"
 
         fun create(lat: Double, lng: Double, radius: Int? = 1500, keyword: String? = null) : PlaceReq {
             val locationNow = "$lat,$lng"
             return PlaceReq(
                 location = locationNow,
                 radius = radius,
-                type = FOOD_TYPE,
+                type = TYPE_RESTAURANT,
                 keyword = keyword,
                 key = MyApplication.appContext.getString(R.string.map_key)
             )

@@ -14,19 +14,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getNearbyFoodsData: GetNearbyFoodsData) : ViewModel() {
-
-    private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing(null))
-    val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
-
-    fun getNearbyFoods() {
-        val req = PlaceReq.create(24.991488, 121.511536)
-        viewModelScope.launch {
-            getNearbyFoodsData.getFlow(req).collect {
-                _nearbyFoodResult.value = it
-            }
-        }
-
-    }
+class HomeViewModel @Inject constructor() : ViewModel() {
 
 }
