@@ -8,7 +8,8 @@ import java.io.Serializable
 data class MapResp<T> (
         val status: String? = null,
         @Json(name = "results") val data: @RawValue T? = null,
-        val error_message: String? = null
+        @Json(name = "next_page_token") val nextPageToken: String? = null,
+        @Json(name = "error_message") val error: String? = null
 ): IResp<T>, Serializable {
 
     fun isSuccess() = status == "OK"
@@ -17,6 +18,8 @@ data class MapResp<T> (
         return "MapResp : {" +
                 "status=" + status +
                 ", data=" + data +
+                ", next_page_token=" + (nextPageToken ?: "null") +
+                ", error_message=" + (error ?: "null") +
                 "}"
     }
 }

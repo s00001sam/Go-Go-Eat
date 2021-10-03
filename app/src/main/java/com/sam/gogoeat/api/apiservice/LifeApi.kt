@@ -15,7 +15,9 @@ interface LifeApi {
         @Query("radius") radius: Int? = null,
         @Query("type") type: String? = null,
         @Query("keyword") keyword: String? = null,
-        @Query("key") key: String? = null
+        @Query("key") key: String? = null,
+        @Query("opennow") opennow: Boolean? = null,
+        @Query("pagetoken") pageToken: String? = null,
     ): Response<MapResp<List<PlaceData>>>
 
 }

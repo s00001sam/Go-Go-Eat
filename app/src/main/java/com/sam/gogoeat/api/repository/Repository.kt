@@ -11,8 +11,8 @@ class Repository (
         private val localDataSource: DataSource,
 ) {
 
-    suspend fun getNearbyPlaces(location: String? = null, radius: Int? = null, type: String? = null, keyword: String? = null, key: String? = null): Response<MapResp<List<PlaceData>>> {
-        return remoteDataSource.getNearbyPlaces(location, radius, type, keyword, key)
+    suspend fun getNearbyPlaces(location: String? = null, radius: Int? = null, type: String? = null, keyword: String? = null, key: String? = null, opennow: Boolean?, pageToken: String?): Response<MapResp<List<PlaceData>>> {
+        return remoteDataSource.getNearbyPlaces(location, radius, type, keyword, key, opennow, pageToken)
     }
 
 

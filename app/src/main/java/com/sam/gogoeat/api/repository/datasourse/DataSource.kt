@@ -11,6 +11,8 @@ interface DataSource {
                                 radius: Int? = null,
                                 type: String? = null,
                                 keyword: String? = null,
-                                key: String? = null): Response<MapResp<List<PlaceData>>>
+                                key: String? = null,
+                                opennow: Boolean? = null,
+                                pageToken: String? = null): Response<MapResp<List<PlaceData>>>
 
 }

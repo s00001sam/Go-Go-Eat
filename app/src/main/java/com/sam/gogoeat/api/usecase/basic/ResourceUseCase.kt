@@ -21,14 +21,12 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
 
     override fun getFlow(params: Params): Flow<Type> {
         return flow {
-            Log.i("sam00","flow currentThread: ${Thread.currentThread().name}")
             var resource = getResource(params)
             resource = processAfterGetResource(params, resource)
             emit(resource as Type)
         }
                 .flowOn(Dispatchers.IO)
                 .onStart {
-                    Log.i("sam00","onStart currentThread: ${Thread.currentThread().name}")
                     emit(Resource.loading(null) as Type)
                 }
     }
@@ -81,10 +79,10 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
     }
 
     private fun processMapRespResource(response: MapResp<ResponseValue>): Resource<ResponseValue> {
-        return if (response.isSuccess())
-            Resource.success(response.data)
+        if (response.isSuccess())
+            return Resource.success(response.data, response.nextPageToken)
         else
-            Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.error_message
+            return Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.error
                 ?: "processMapRespResource, empty error")
     }
 }

@@ -12,8 +12,10 @@ class RemoteDataSource : DataSource {
         radius: Int?,
         type: String?,
         keyword: String?,
-        key: String?
-    ) = MapApi.apiService.getNearbyPlaces(location, radius, type, keyword, key)
+        key: String?,
+        opennow: Boolean?,
+        pageToken: String?
+    ) = MapApi.apiService.getNearbyPlaces(location, radius, type, keyword, key, opennow, pageToken)
 
 
 }

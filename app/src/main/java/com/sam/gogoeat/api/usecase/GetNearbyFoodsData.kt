@@ -11,6 +11,6 @@ import retrofit2.Response
 class GetNearbyFoodsData(private var repository: Repository) : ResourceUseCase<Resource<List<PlaceData>>, PlaceReq, List<PlaceData>, MapResp<List<PlaceData>>>() {
 
     override suspend fun getResponse(params: PlaceReq): Response<MapResp<List<PlaceData>>> {
-        return repository.getNearbyPlaces(params.location, params.radius, params.type, params.keyword, params.key)
+        return repository.getNearbyPlaces(params.location, params.radius, params.type, params.keyword, params.key, params.opennow, params.pageToken)
     }
 }

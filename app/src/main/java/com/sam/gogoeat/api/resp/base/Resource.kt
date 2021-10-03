@@ -1,12 +1,17 @@
 package com.sam.gogoeat.api.resp.base
 
-data class Resource<out T>(val status: Status, val data: T?, val message: ErrorMessage?) {
+data class Resource<out T>(val status: Status, val data: T?, val message: ErrorMessage?, val nextPageToken: String? = null) {
     companion object {
         const val ERROR_CODE_603304 = 603304
         const val MOBAPP_TOKEN_EXPIRED = 100013
         const val OPEN_TOKEN_EXPIRED = 200007
+
         fun <T> success(data: T?): Resource<T> {
             return Resource(Status.SUCCESS, data, null)
+        }
+
+        fun <T> success(data: T?, nextPageToken: String?): Resource<T> {
+            return Resource(Status.SUCCESS, data, null, nextPageToken)
         }
 
         fun <T> success(data: ArrayList<T>?): Resource<ArrayList<T>> {
@@ -48,6 +53,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: ErrorM
     fun isFinished(): Boolean = status != Status.LOADING
     fun isLoading(): Boolean = status == Status.LOADING
     fun isUnknownFinished(): Boolean = status != Status.UNKNOWN_FINISH
+    fun hasNextPage(): Boolean = !nextPageToken.isNullOrEmpty()
 }
 
 enum class Status {
