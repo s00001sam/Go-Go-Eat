@@ -7,12 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.Util.getRandomNum
+import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.nearby.NearbyFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +28,7 @@ class HomeFragment : Fragment() {
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +36,7 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
@@ -39,10 +45,25 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeFlows()
         setTabAndViewPager()
+        binding.testBtn.setOnClickListener {
+            if (mainViewModel.savedFoodResult.isNotEmpty()) {
+                val list = mutableListOf<PlaceData>()
+                val randomNum = getRandomNum(mainViewModel.savedFoodResult.size)
+                list.addAll(mainViewModel.historyList.value)
+                list.add(mainViewModel.savedFoodResult.get(randomNum))
+                mainViewModel.setHistoryList(list)
+            }
+
+            switchViewpager(1)
+        }
     }
     
     private fun observeFlows() {
+    }
 
+    private fun switchViewpager(position: Int) {
+        binding.mainTablayout.setScrollPosition(position, 0f, true)
+        binding.mainViewpager.setCurrentItem(position, true)
     }
 
     private fun setTabAndViewPager() {

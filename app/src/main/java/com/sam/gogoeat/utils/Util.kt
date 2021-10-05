@@ -23,4 +23,8 @@ object Util {
     fun checkHasPermission(context: Context, permission: String) : Boolean {
         return ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
+
+    fun getRandomNum(totalNum: Int) : Int {
+        return (Math.random()*totalNum).toInt()
+    }
 }

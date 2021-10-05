@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.R
@@ -20,6 +21,7 @@ import com.sam.gogoeat.databinding.ActivityMainBinding
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -29,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         const val LOCATION_COARSE = Manifest.permission.ACCESS_COARSE_LOCATION
     }
 
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
@@ -47,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
     private val locationCallback = object : LocationCallback(){
         override fun onLocationResult(p0: LocationResult) {
-            var lastLocation = p0.lastLocation
+            val lastLocation = p0.lastLocation
             UserManager.myLocation = LatLng(lastLocation.latitude, lastLocation.longitude)
             if (!viewModel.firstGetLocation) {
                 viewModel.firstGetLocation = true
@@ -59,12 +61,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        binding.viewModel = viewModel
         checkLocationPermission()
     }
 
-    fun checkLocationPermission() {
+    private fun checkLocationPermission() {
         if (!checkHasPermission(this, LOCATION_FINE)) {
             requestPermission.launch(LOCATION_FINE)
         } else {

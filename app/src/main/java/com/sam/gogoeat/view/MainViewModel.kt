@@ -23,9 +23,15 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
     val savedFoodResult = mutableListOf<PlaceData>()
-
     var saveToken = ""
     var firstGetLocation = false
+
+    private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
+    val historyList : StateFlow<List<PlaceData>> = _historyList
+
+    fun setHistoryList(list : List<PlaceData>) {
+        _historyList.value = list
+    }
 
     fun getNearbyFoods() {
         UserManager.myLocation?.let { location ->
@@ -70,7 +76,6 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
                 }
             }
         }
-
     }
 
 }
