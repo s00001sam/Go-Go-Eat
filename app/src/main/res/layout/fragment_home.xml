@@ -9,47 +9,31 @@
             type="com.sam.gogoeat.view.home.HomeViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.home.HomeFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/main_tablayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabIndicatorColor="@color/orange"
-            app:tabIndicatorFullWidth="false"
-            app:tabPaddingEnd="25dp"
-            app:tabPaddingStart="25dp"
-            app:tabSelectedTextColor="@color/orange"
-            app:tabTextColor="@color/white"
-            app:tabBackground="@null"
-            app:tabRippleColor="@null"
-            android:longClickable="false" />
+            android:layout_height="match_parent"
+            tools:context=".view.home.HomeFragment">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/main_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_tablayout" />
+            <Button
+                android:id="@+id/test_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="抽抽抽"
+                android:textColor="@color/black_3f3a3a"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/test_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="抽抽抽"
-            android:textColor="@color/black_3f3a3a"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/bs_all_list"
+            layout="@layout/layout_all_list"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

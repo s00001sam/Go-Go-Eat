@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.data.place.PlaceData
@@ -20,6 +22,7 @@ import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.nearby.NearbyFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
 import java.lang.reflect.Field
 
@@ -29,6 +32,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mainViewModel: MainViewModel
+    private lateinit var bottomBehavior: BottomSheetBehavior<View>
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -44,13 +48,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeFlows()
+        setBottomSheet()
         setTabAndViewPager()
         binding.testBtn.setOnClickListener {
+            showBottomSheet()
             if (mainViewModel.savedFoodResult.isNotEmpty()) {
                 val list = mutableListOf<PlaceData>()
                 val randomNum = getRandomNum(mainViewModel.savedFoodResult.size)
                 list.addAll(mainViewModel.historyList.value)
-                list.add(mainViewModel.savedFoodResult.get(randomNum))
+                list.add(0, mainViewModel.savedFoodResult.get(randomNum))
                 mainViewModel.setHistoryList(list)
             }
 
@@ -61,14 +67,48 @@ class HomeFragment : Fragment() {
     private fun observeFlows() {
     }
 
+    private fun setBottomSheet() {
+        bottomBehavior = BottomSheetBehavior.from(bs_all_list)
+        bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+
+                    }
+                    BottomSheetBehavior.STATE_HIDDEN -> {
+
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {
+
+                    }
+                }
+            }
+        })
+    }
+
+    fun showBottomSheet() {
+        bottomBehavior.isHideable = false
+        bottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
     private fun switchViewpager(position: Int) {
-        binding.mainTablayout.setScrollPosition(position, 0f, true)
-        binding.mainViewpager.setCurrentItem(position, true)
+        binding.bsAllList.mainTablayout.setScrollPosition(position, 0f, true)
+        binding.bsAllList.mainViewpager.setCurrentItem(position, true)
     }
 
     private fun setTabAndViewPager() {
-        val tabLayout: TabLayout = binding.mainTablayout
-        val viewPager: ViewPager2 = binding.mainViewpager
+        val tabLayout: TabLayout = binding.bsAllList.mainTablayout
+        val viewPager: ViewPager2 = binding.bsAllList.mainViewpager
         val viewPagerAdapter = MainViewPagerAdapter(this)
         viewPagerAdapter.addFragment(NearbyFragment())
         viewPagerAdapter.addFragment(LotteryHistoryFragment())
@@ -89,7 +129,7 @@ class HomeFragment : Fragment() {
         try {
             val recyclerViewField: Field = ViewPager2::class.java.getDeclaredField("mRecyclerView")
             recyclerViewField.setAccessible(true)
-            val recyclerView = recyclerViewField.get(binding.mainViewpager) as RecyclerView
+            val recyclerView = recyclerViewField.get(binding.bsAllList.mainViewpager) as RecyclerView
             val touchSlopField: Field = RecyclerView::class.java.getDeclaredField("mTouchSlop")
             touchSlopField.setAccessible(true)
             val touchSlop = touchSlopField.get(recyclerView) as Int
