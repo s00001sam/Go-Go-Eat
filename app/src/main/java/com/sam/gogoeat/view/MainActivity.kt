@@ -1,17 +1,12 @@
 package com.sam.gogoeat.view
 
 import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
-import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
@@ -20,6 +15,7 @@ import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.ActivityMainBinding
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
+import com.sam.gogoeat.utils.Util.startShakeAnim
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -64,6 +60,29 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         checkLocationPermission()
+        initView()
+        initCollect()
+    }
+
+    private fun initView() {
+        binding.ivSearch.setOnClickListener {
+            binding.ivSearch.setImageResource(R.drawable.orange_search)
+            it.startShakeAnim(0.5f, 1.5f, 30f, 1000) {
+                binding.ivSearch.setImageResource(R.drawable.white_search)
+            }
+        }
+
+        binding.ivList.setOnClickListener {
+            viewModel.setListClick()
+        }
+    }
+
+    private fun initCollect() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.listClick.collect { listNeedOpen ->
+                binding.ivList.isSelected = listNeedOpen
+            }
+        }
     }
 
     private fun checkLocationPermission() {

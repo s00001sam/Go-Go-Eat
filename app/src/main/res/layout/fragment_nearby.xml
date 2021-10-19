@@ -23,6 +23,5 @@
             android:layoutAnimation="@anim/layout_animation_slide_right"
             tools:listitem="@layout/item_store_rcy"/>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

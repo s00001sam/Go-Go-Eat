@@ -14,10 +14,11 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="16dp"
@@ -35,55 +36,45 @@
                 android:elevation="16dp"
                 android:padding="8dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/imageStore"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginStart="8dp"
-                    imageUrl="@{store.icon}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textTitle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     android:singleLine="true"
                     android:text="@{store.name}"
-                    android:textColor="@color/black_3f3a3a"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageStore"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/textMeter"
+                    app:layout_constraintEnd_toStartOf="@+id/textMeter"
+                    app:layout_constraintStart_toStartOf="parent"
                     tools:text="xx小吃店" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textStars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
                     android:singleLine="true"
-                    android:textColor="@color/black_3f3a3a"
+                    android:textColor="@color/light_orange"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toTopOf="@+id/textOpen"
-                    app:layout_constraintStart_toStartOf="@+id/textTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/textTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textOpen"
                     tools:text="5.0 (122)" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textOpen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="8dp"
                     android:singleLine="true"
-                    android:textColor="@color/black_3f3a3a"
+                    android:textColor="@color/light_orange"
                     android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textMeter"
-                    app:layout_constraintStart_toStartOf="@+id/textTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="營業中" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -103,7 +94,7 @@
                     android:layout_marginEnd="4dp"
                     android:layout_marginBottom="8dp"
                     android:text="20m"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/light_orange"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -114,6 +105,16 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:elevation="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/restaurant_logo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

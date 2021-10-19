@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
         setBottomSheet()
         setTabAndViewPager()
         binding.testBtn.setOnClickListener {
-            showBottomSheet()
             if (mainViewModel.savedFoodResult.isNotEmpty()) {
                 val list = mutableListOf<PlaceData>()
                 val randomNum = getRandomNum(mainViewModel.savedFoodResult.size)
@@ -65,10 +64,20 @@ class HomeFragment : Fragment() {
     }
     
     private fun observeFlows() {
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.listClick.collect { listNeedOpen ->
+                if (listNeedOpen) {
+                    showBottomSheet()
+                } else {
+                    hideBottomSheet()
+                }
+            }
+        }
     }
 
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
+        bottomBehavior.isDraggable = false
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 
@@ -99,6 +108,11 @@ class HomeFragment : Fragment() {
     fun showBottomSheet() {
         bottomBehavior.isHideable = false
         bottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
+
+    fun hideBottomSheet() {
+        bottomBehavior.isHideable = true
+        bottomBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun switchViewpager(position: Int) {

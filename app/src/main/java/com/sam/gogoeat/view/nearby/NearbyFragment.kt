@@ -54,7 +54,7 @@ class NearbyFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.nearbyFoodResult.collect {
                 if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                    (binding.rcyNearby.adapter as StoreAdapter).submitList(it.data)
+                    (binding.rcyNearby.adapter as StoreAdapter).submitList(it.data.sortedBy { it.distance })
                     (binding.rcyNearby.adapter as StoreAdapter).notifyDataSetChanged()
                 }
             }

@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sam.gogoeat.R
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.ItemStoreRcyBinding
+import com.sam.gogoeat.utils.UserManager
+import com.sam.gogoeat.utils.Util.getDinstance
 
 class StoreAdapter(private val onClickListener: OnclickListener) : ListAdapter<PlaceData, StoreAdapter.ViewHolder>(DiffCallback) {
 
@@ -36,6 +38,8 @@ class StoreAdapter(private val onClickListener: OnclickListener) : ListAdapter<P
             } else {
                 binding.textOpen.visibility = View.GONE
             }
+
+            "${store.distance} m".also { binding.textMeter.text = it }
 
             binding.executePendingBindings()
         }

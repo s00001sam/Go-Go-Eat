@@ -1,7 +1,7 @@
 package com.sam.gogoeat.view
 
 import android.os.Handler
-import android.util.Log
+import android.os.Looper
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sam.gogoeat.api.resp.base.Resource
@@ -16,25 +16,35 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearbyFoodsData) : ViewModel() {
 
     private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing(null))
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
+    private val _listClick = MutableStateFlow<Boolean>(false)
+    val listClick: StateFlow<Boolean> = _listClick
+
     val savedFoodResult = mutableListOf<PlaceData>()
     var saveToken = ""
     var firstGetLocation = false
+    private var isListOpen = false
 
     private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
     val historyList : StateFlow<List<PlaceData>> = _historyList
 
-    fun setHistoryList(list : List<PlaceData>) {
+    fun setHistoryList(list: List<PlaceData>) {
         _historyList.value = list
     }
 
+    fun setListClick() {
+        isListOpen = !isListOpen
+        _listClick.value = isListOpen
+    }
+
     fun getNearbyFoods() {
-        UserManager.myLocation?.let { location ->
+        UserManager.myLocation.let { location ->
             val req = PlaceReq.create(location.latitude, location.longitude)
             viewModelScope.launch {
                 getNearbyFoodsData.getFlow(req).collect {
@@ -44,7 +54,7 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
                             savedFoodResult.clear()
                             savedFoodResult.addAll(it.data)
                             saveToken = token
-                            Handler().postDelayed({ getMorePageFoods() }, 2000)
+                            Handler(Looper.getMainLooper()).postDelayed({ getMorePageFoods() }, 2000)
                         }
                     }
                 }
@@ -53,7 +63,7 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     }
 
     fun getMorePageFoods() {
-        UserManager.myLocation?.let { location ->
+        UserManager.myLocation.let { location ->
             val req = PlaceReq.create(location.latitude, location.longitude, pageToken = saveToken)
             viewModelScope.launch {
                 getNearbyFoodsData.getFlow(req).collect {
@@ -64,7 +74,7 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
                         if (it.hasNextPage()) {
                             it.nextPageToken?.let { token ->
                                 saveToken = token
-                                Handler().postDelayed({ getMorePageFoods() }, 2000)
+                                Handler(Looper.getMainLooper()).postDelayed({ getMorePageFoods() }, 2000)
                             }
                         } else {
                             if (savedFoodResult.isNotEmpty()) {

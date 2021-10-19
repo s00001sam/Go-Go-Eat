@@ -1,6 +1,9 @@
 package com.sam.gogoeat.data.place
 
 import android.os.Parcelable
+import com.google.android.gms.maps.model.LatLng
+import com.sam.gogoeat.utils.UserManager
+import com.sam.gogoeat.utils.Util.getDinstance
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.RawValue
 
@@ -22,4 +25,10 @@ data class PlaceData(
     val types: @RawValue List<String>? = null,
     val user_ratings_total: Int = 0,
     val vicinity: String? = null
-): Parcelable
+): Parcelable {
+    val storeLatlng: LatLng
+        get() = LatLng(geometry?.location?.lat ?: 25.0 , geometry?.location?.lng ?: 121.0)
+
+    val distance: Int
+        get() = UserManager.myLocation.getDinstance(storeLatlng)
+}
