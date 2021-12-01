@@ -102,6 +102,8 @@ dependencies {
 
     //google map
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+    //Lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
 }
 

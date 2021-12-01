@@ -11,7 +11,7 @@ buildscript {
         version_moshi = "1.8.0"
         version_glide = "4.11.0"
         version_hilt = "2.37"
-
+        lottie_version = "3.4.0"
     }
     repositories {
         google()
