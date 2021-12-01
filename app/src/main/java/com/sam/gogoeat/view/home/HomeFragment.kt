@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -15,9 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.FragmentHomeBinding
-import com.sam.gogoeat.utils.Util.getRandomNum
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.nearby.NearbyFragment
@@ -47,20 +44,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeFlows()
         setBottomSheet()
         setTabAndViewPager()
-        binding.testBtn.setOnClickListener {
-            if (mainViewModel.savedFoodResult.isNotEmpty()) {
-                val list = mutableListOf<PlaceData>()
-                val randomNum = getRandomNum(mainViewModel.savedFoodResult.size)
-                list.addAll(mainViewModel.historyList.value)
-                list.add(0, mainViewModel.savedFoodResult.get(randomNum))
-                mainViewModel.setHistoryList(list)
-            }
-
-            switchViewpager(1)
-        }
+        observeFlows()
     }
     
     private fun observeFlows() {

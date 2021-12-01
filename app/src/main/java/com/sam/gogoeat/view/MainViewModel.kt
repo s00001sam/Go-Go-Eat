@@ -26,13 +26,13 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     private val _listClick = MutableStateFlow<Boolean>(false)
     val listClick: StateFlow<Boolean> = _listClick
 
+    private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
+    val historyList : StateFlow<List<PlaceData>> = _historyList
+
     val savedFoodResult = mutableListOf<PlaceData>()
     var saveToken = ""
     var firstGetLocation = false
     private var isListOpen = false
-
-    private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
-    val historyList : StateFlow<List<PlaceData>> = _historyList
 
     fun setHistoryList(list: List<PlaceData>) {
         _historyList.value = list
