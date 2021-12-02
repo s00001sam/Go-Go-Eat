@@ -9,6 +9,7 @@ import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceReq
 import com.sam.gogoeat.utils.UserManager
+import com.sam.gogoeat.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -85,6 +86,17 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
                     }
                 }
             }
+        }
+    }
+
+    fun getRandomFoodIntoHistory() {
+        nearbyFoodResult.value.data?.let {
+            if (it.isEmpty()) return
+
+            val list = mutableListOf<PlaceData>()
+            list.addAll(historyList.value)
+            list.add(0, it[Util.getRandomNum(it.size)])
+            _historyList.value = list
         }
     }
 

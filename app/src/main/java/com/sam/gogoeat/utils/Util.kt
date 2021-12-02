@@ -8,9 +8,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.View
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.data.place.PlaceData
+import kotlin.random.Random
 
 
 object Util {
@@ -28,7 +28,7 @@ object Util {
     }
 
     fun getRandomNum(totalNum: Int) : Int {
-        return (Math.random()*totalNum).toInt()
+        return (0 until totalNum).random()
     }
 
     fun LatLng.getDinstance(end: LatLng): Int{

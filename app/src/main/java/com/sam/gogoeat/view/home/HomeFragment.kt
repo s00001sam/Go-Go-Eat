@@ -1,5 +1,6 @@
 package com.sam.gogoeat.view.home
 
+import android.animation.Animator
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,11 +45,31 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setBottomSheet()
-        setTabAndViewPager()
+        initViews()
         observeFlows()
     }
-    
+
+    private fun initViews() {
+        setBottomSheet()
+        setTabAndViewPager()
+
+        binding.lavWheel.addAnimatorListener(object : Animator.AnimatorListener{
+            override fun onAnimationRepeat(animation: Animator?) {}
+
+            override fun onAnimationEnd(animation: Animator?) {
+                mainViewModel.getRandomFoodIntoHistory()
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {}
+
+            override fun onAnimationStart(animation: Animator?) {}
+        })
+
+        binding.vClick.setOnClickListener {
+            binding.lavWheel.playAnimation()
+        }
+    }
+
     private fun observeFlows() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.listClick.collect { listNeedOpen ->

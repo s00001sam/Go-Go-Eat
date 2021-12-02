@@ -11,7 +11,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/yellow_FFF8D7">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -19,15 +20,27 @@
             tools:context=".view.home.HomeFragment">
 
             <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lav_wheel"
                 android:layout_width="500dp"
                 android:layout_height="500dp"
-                app:lottie_rawRes="@raw/lucky_wheel"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"
+                app:lottie_rawRes="@raw/lucky_wheel" />
+
+            <View
+                android:id="@+id/v_click"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="100dp"
+                app:layout_constraintBottom_toBottomOf="@+id/lav_wheel"
+                app:layout_constraintEnd_toEndOf="@+id/lav_wheel"
+                app:layout_constraintStart_toStartOf="@+id/lav_wheel"
+                app:layout_constraintTop_toTopOf="@+id/lav_wheel" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
