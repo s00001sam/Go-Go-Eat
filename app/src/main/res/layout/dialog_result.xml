@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.sam.gogoeat.view.luckyresult.ResultViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.luckyresult.ResultDialog">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="300dp"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/frame_rcy_item"
+                    android:padding="8dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:text="@string/result_dialog_title"
+                        android:textColor="@color/orange"
+                        android:textSize="16sp"
+                        android:textStyle="normal"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                        tools:text="xx小吃店" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_cancel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="36dp"
+                            android:padding="12dp"
+                            android:text="@string/result_dialog_back"
+                            android:textColor="@color/orange"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_go_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
+                            android:text="@string/result_dialog_go_map"
+                            android:textColor="@color/orange"
+                            android:textSize="16sp"
+                            app:layout_constraintBottom_toBottomOf="parent" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:elevation="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/restaurant_logo" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

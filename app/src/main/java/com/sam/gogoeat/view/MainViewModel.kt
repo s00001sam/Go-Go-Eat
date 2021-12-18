@@ -30,6 +30,9 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
     val historyList : StateFlow<List<PlaceData>> = _historyList
 
+    private val _newHistoryItem = MutableStateFlow<PlaceData?>(null)
+    val newHistoryItem : StateFlow<PlaceData?> = _newHistoryItem
+
     val savedFoodResult = mutableListOf<PlaceData>()
     var saveToken = ""
     var firstGetLocation = false
@@ -94,8 +97,10 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
             if (it.isEmpty()) return
 
             val list = mutableListOf<PlaceData>()
+            val newItem = it[Util.getRandomNum(it.size)]
             list.addAll(historyList.value)
-            list.add(0, it[Util.getRandomNum(it.size)])
+            list.add(0, newItem)
+            _newHistoryItem.value = newItem
             _historyList.value = list
         }
     }

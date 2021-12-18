@@ -15,13 +15,16 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
+import com.sam.gogoeat.view.luckyresult.ResultDialog
 import com.sam.gogoeat.view.nearby.NearbyFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import java.lang.reflect.Field
 
 @AndroidEntryPoint
@@ -77,6 +80,14 @@ class HomeFragment : Fragment() {
                     showBottomSheet()
                 } else {
                     hideBottomSheet()
+                }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.newHistoryItem.collectLatest {
+                it?.let {
+                    ResultDialog.show(parentFragmentManager, it)
                 }
             }
         }

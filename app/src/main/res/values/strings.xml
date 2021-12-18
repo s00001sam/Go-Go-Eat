@@ -6,4 +6,7 @@
     <string name="text_is_not_open">休息中</string>
     <string name="location_error">取得位置發生異常</string>
     <string name="no_location_permission">請開啟位置權限</string>
+    <string name="result_dialog_title">今天就決定吃</string>
+    <string name="result_dialog_back">再想想</string>
+    <string name="result_dialog_go_map">立即前往</string>
 </resources>
