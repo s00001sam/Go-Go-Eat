@@ -95,7 +95,7 @@ class HomeFragment : Fragment() {
 
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
-        bottomBehavior.isDraggable = false
+//        bottomBehavior.isDraggable = false
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
 

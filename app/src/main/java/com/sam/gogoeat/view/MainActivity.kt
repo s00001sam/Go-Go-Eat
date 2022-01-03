@@ -16,6 +16,7 @@ import com.sam.gogoeat.databinding.ActivityMainBinding
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import com.sam.gogoeat.utils.Util.startShakeAnim
+import com.sam.gogoeat.view.search.SearchDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity() {
             binding.ivSearch.setImageResource(R.drawable.orange_search)
             it.startShakeAnim(0.5f, 1.5f, 30f, 1000) {
                 binding.ivSearch.setImageResource(R.drawable.white_search)
+                SearchDialog.show(supportFragmentManager)
             }
         }
 

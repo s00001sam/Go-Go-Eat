@@ -87,7 +87,7 @@ class ResultDialog : AppCompatDialogFragment() {
         }
 
         binding.tvGoMap.setOnClickListener {
-            viewModel.newPlace.value?.let { place ->
+            viewModel.newPlace.value.let { place ->
                 activity?.gotoMap(place)
             }
             dismiss()
@@ -103,6 +103,15 @@ class ResultDialog : AppCompatDialogFragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.newPlace.collectLatest {
                 binding.tvName.text = it.name
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.leaveControl.collectLatest {
+                if (it) {
+                    dismiss()
+                    viewModel.leaveComplete()
+                }
             }
         }
     }
