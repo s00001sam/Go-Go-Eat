@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
@@ -35,6 +35,9 @@ class HomeFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var bottomBehavior: BottomSheetBehavior<View>
 
+    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: ViewPager2
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -53,8 +56,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
-        setBottomSheet()
         setTabAndViewPager()
+        setBottomSheet()
 
         binding.lavWheel.addAnimatorListener(object : Animator.AnimatorListener{
             override fun onAnimationRepeat(animation: Animator?) {}
@@ -75,12 +78,8 @@ class HomeFragment : Fragment() {
 
     private fun observeFlows() {
         lifecycleScope.launchWhenStarted {
-            mainViewModel.listClick.collect { listNeedOpen ->
-                if (listNeedOpen) {
-                    showBottomSheet()
-                } else {
-                    hideBottomSheet()
-                }
+            mainViewModel.isListIconClick.collect {
+                if (it) showBottomSheet() else collapseBottomSheet()
             }
         }
 
@@ -95,22 +94,23 @@ class HomeFragment : Fragment() {
 
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
-//        bottomBehavior.isDraggable = false
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
+                tabLayout.alpha = slideOffset
+                if (slideOffset != 0f) tabLayout.visibility = View.VISIBLE
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-
+                        mainViewModel.setIsListOpen(false)
+                        tabLayout.visibility = View.INVISIBLE
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
 
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-
+                        mainViewModel.setIsListOpen(true)
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
 
@@ -124,13 +124,11 @@ class HomeFragment : Fragment() {
     }
 
     fun showBottomSheet() {
-        bottomBehavior.isHideable = false
         bottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    fun hideBottomSheet() {
-        bottomBehavior.isHideable = true
-        bottomBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    fun collapseBottomSheet() {
+        bottomBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
     private fun switchViewpager(position: Int) {
@@ -139,8 +137,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setTabAndViewPager() {
-        val tabLayout: TabLayout = binding.bsAllList.mainTablayout
-        val viewPager: ViewPager2 = binding.bsAllList.mainViewpager
+        tabLayout = binding.bsAllList.mainTablayout
+        viewPager = binding.bsAllList.mainViewpager
+        tabLayout.alpha = 0f
         val viewPagerAdapter = MainViewPagerAdapter(this)
         viewPagerAdapter.addFragment(NearbyFragment())
         viewPagerAdapter.addFragment(LotteryHistoryFragment())

@@ -2,6 +2,7 @@ package com.sam.gogoeat.view
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sam.gogoeat.api.resp.base.Resource
@@ -24,8 +25,11 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing(null))
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
-    private val _listClick = MutableStateFlow<Boolean>(false)
-    val listClick: StateFlow<Boolean> = _listClick
+    private val _isListOpen = MutableStateFlow<Boolean>(false)
+    val isListOpen: StateFlow<Boolean> = _isListOpen
+
+    private val _isListIconClick = MutableStateFlow<Boolean>(false)
+    val isListIconClick: StateFlow<Boolean> = _isListIconClick
 
     private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
     val historyList : StateFlow<List<PlaceData>> = _historyList
@@ -36,15 +40,18 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     val savedFoodResult = mutableListOf<PlaceData>()
     var saveToken = ""
     var firstGetLocation = false
-    private var isListOpen = false
 
     fun setHistoryList(list: List<PlaceData>) {
         _historyList.value = list
     }
 
-    fun setListClick() {
-        isListOpen = !isListOpen
-        _listClick.value = isListOpen
+    fun setIsListOpen(isOpen: Boolean) {
+        _isListOpen.value = isOpen
+        _isListIconClick.value = isOpen
+    }
+
+    fun setListIconClick() {
+        _isListIconClick.value = !isListOpen.value
     }
 
     fun getNearbyFoods() {

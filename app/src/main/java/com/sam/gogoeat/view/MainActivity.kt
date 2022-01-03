@@ -4,6 +4,7 @@ import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -19,6 +20,7 @@ import com.sam.gogoeat.utils.Util.startShakeAnim
 import com.sam.gogoeat.view.search.SearchDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -75,14 +77,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.ivList.setOnClickListener {
-            viewModel.setListClick()
+            viewModel.setListIconClick()
         }
     }
 
     private fun initCollect() {
         lifecycleScope.launchWhenStarted {
-            viewModel.listClick.collect { listNeedOpen ->
-                binding.ivList.isSelected = listNeedOpen
+            viewModel.isListOpen.collectLatest {
+                binding.ivList.isSelected = it
             }
         }
     }

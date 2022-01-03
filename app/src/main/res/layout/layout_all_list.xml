@@ -3,39 +3,48 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
+    <data/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/translucent_80"
+        android:background="@drawable/frame_sheet_collapse"
         android:orientation="vertical"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="20dp"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="350dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <View
+            android:layout_width="100dp"
+            android:layout_height="2dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/main_tablayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/main_tablayout" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tablayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:longClickable="false"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tabBackground="@null"
             app:tabIndicatorColor="@color/orange"
             app:tabIndicatorFullWidth="false"
             app:tabPaddingEnd="25dp"
             app:tabPaddingStart="25dp"
-            app:tabSelectedTextColor="@color/orange"
-            app:tabTextColor="@color/white"
-            app:tabBackground="@null"
             app:tabRippleColor="@null"
-            android:longClickable="false" />
+            app:tabSelectedTextColor="@color/orange"
+            app:tabTextColor="@color/white" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
