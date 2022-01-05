@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.luckyresult.ResultDialog
@@ -38,6 +39,12 @@ class HomeFragment : Fragment() {
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
+    private val collapseStoreAdapter : CollapseStoreAdapter by lazy {
+        CollapseStoreAdapter(CollapseStoreAdapter.OnclickListener {
+            requireActivity().gotoMap(it)
+        })
+    }
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -56,6 +63,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViews() {
+        initRcyCollapse()
         setTabAndViewPager()
         setBottomSheet()
 
@@ -81,6 +89,10 @@ class HomeFragment : Fragment() {
 
     }
 
+    private fun initRcyCollapse() {
+        binding.bsAllList.rvCollapseStore.adapter = collapseStoreAdapter
+    }
+
     private fun observeFlows() {
         lifecycleScope.launchWhenStarted {
             mainViewModel.isListIconClick.collect {
@@ -95,11 +107,20 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.nearbyFoodResult.collect {
+                if (it.isSuccess() && !it.data.isNullOrEmpty()) {
+                    val list = it.data.sortedBy { it.distance }
+                    (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).submitList(list)
+                    (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
-        bottomBehavior.isDraggable = true
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset != 0f) {

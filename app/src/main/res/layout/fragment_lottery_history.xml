@@ -20,7 +20,8 @@
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
-            tools:listitem="@layout/item_store_rcy"/>
+            tools:listitem="@layout/item_store_rcy"
+            android:nestedScrollingEnabled="false"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
