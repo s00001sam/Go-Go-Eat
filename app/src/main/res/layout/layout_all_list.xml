@@ -14,41 +14,68 @@
         app:behavior_peekHeight="350dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <View
-            android:layout_width="100dp"
-            android:layout_height="2dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/main_tablayout"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/main_tablayout" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/collapse_title"
+                android:textColor="@color/black_4F4F4F"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_see_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="4dp"
+                android:fontFamily="@font/aclonica"
+                android:text="@string/collapse_title_more"
+                android:textColor="@color/black_4F4F4F"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/main_tablayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:longClickable="false"
-            android:visibility="visible"
+            android:visibility="gone"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:tabBackground="@null"
-            app:tabIndicatorColor="@color/orange"
+            app:tabIndicatorColor="@color/black_4F4F4F"
             app:tabIndicatorFullWidth="false"
             app:tabPaddingEnd="25dp"
             app:tabPaddingStart="25dp"
             app:tabRippleColor="@null"
-            app:tabSelectedTextColor="@color/orange"
-            app:tabTextColor="@color/white" />
+            app:tabSelectedTextColor="@color/black_4F4F4F"
+            app:tabTextColor="@color/gray_BDBDBD" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/main_viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/main_tablayout" />
+            app:layout_constraintTop_toBottomOf="@+id/main_tablayout"
+            android:visibility="gone"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

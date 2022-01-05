@@ -13,26 +13,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"
+        android:background="@color/white"
         tools:context=".view.MainActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:fontFamily="@font/aclonica"
                 android:text="@string/app_title"
-                android:textColor="@color/orange"
+                android:textColor="@color/black_4F4F4F"
                 android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/iv_search"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,19 +47,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/white_search" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_list"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="24dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/iv_search"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/list_selector" />
+                app:srcCompat="@drawable/ic_search" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

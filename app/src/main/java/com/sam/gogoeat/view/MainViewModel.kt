@@ -25,9 +25,6 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing(null))
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
-    private val _isListOpen = MutableStateFlow<Boolean>(false)
-    val isListOpen: StateFlow<Boolean> = _isListOpen
-
     private val _isListIconClick = MutableStateFlow<Boolean>(false)
     val isListIconClick: StateFlow<Boolean> = _isListIconClick
 
@@ -46,12 +43,7 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     }
 
     fun setIsListOpen(isOpen: Boolean) {
-        _isListOpen.value = isOpen
         _isListIconClick.value = isOpen
-    }
-
-    fun setListIconClick() {
-        _isListIconClick.value = !isListOpen.value
     }
 
     fun getNearbyFoods() {

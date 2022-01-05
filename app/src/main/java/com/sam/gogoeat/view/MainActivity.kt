@@ -69,25 +69,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         binding.ivSearch.setOnClickListener {
-            binding.ivSearch.setImageResource(R.drawable.orange_search)
             it.startShakeAnim(0.5f, 1.5f, 30f, 1000) {
-                binding.ivSearch.setImageResource(R.drawable.white_search)
                 SearchDialog.show(supportFragmentManager)
             }
         }
-
-        binding.ivList.setOnClickListener {
-            viewModel.setListIconClick()
-        }
     }
 
-    private fun initCollect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.isListOpen.collectLatest {
-                binding.ivList.isSelected = it
-            }
-        }
-    }
+    private fun initCollect() {}
 
     private fun checkLocationPermission() {
         if (!checkHasPermission(this, LOCATION_FINE)) {

@@ -10,4 +10,6 @@
     <string name="result_dialog_back">再想想</string>
     <string name="result_dialog_go_map">立即前往</string>
     <string name="search_hint">關鍵字搜尋</string>
+    <string name="collapse_title">附近餐廳</string>
+    <string name="collapse_title_more">更多 ></string>
 </resources>

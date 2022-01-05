@@ -74,6 +74,11 @@ class HomeFragment : Fragment() {
         binding.vClick.setOnClickListener {
             binding.lavWheel.playAnimation()
         }
+
+        binding.bsAllList.tvSeeMore.setOnClickListener {
+            showBottomSheet()
+        }
+
     }
 
     private fun observeFlows() {
@@ -94,17 +99,23 @@ class HomeFragment : Fragment() {
 
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
+        bottomBehavior.isDraggable = true
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset != 0f) {
+                    tabLayout.visibility = View.VISIBLE
+                    viewPager.visibility = View.VISIBLE
+                }
                 tabLayout.alpha = slideOffset
-                if (slideOffset != 0f) tabLayout.visibility = View.VISIBLE
+                viewPager.alpha = slideOffset
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         mainViewModel.setIsListOpen(false)
-                        tabLayout.visibility = View.INVISIBLE
+                        tabLayout.visibility = View.GONE
+                        viewPager.visibility = View.GONE
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
 

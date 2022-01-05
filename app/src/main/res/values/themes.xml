@@ -10,4 +10,9 @@
 
     <style name="DialogStyle" parent="Theme.AppCompat.Dialog">
     </style>
+
+    <style name="roundedCornerStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">32dp</item>
+    </style>
 </resources>
