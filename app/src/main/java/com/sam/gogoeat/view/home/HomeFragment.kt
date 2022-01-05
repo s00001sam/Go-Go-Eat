@@ -1,12 +1,13 @@
 package com.sam.gogoeat.view.home
 
 import android.animation.Animator
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.utils.Util.gotoMap
+import com.sam.gogoeat.view.CustomerBottomSheetBehavior
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.luckyresult.ResultDialog
@@ -119,6 +121,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setBottomSheet() {
         bottomBehavior = BottomSheetBehavior.from(bs_all_list)
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {

@@ -10,7 +10,6 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.data.place.PlaceData
-import kotlin.random.Random
 
 
 object Util {
@@ -37,7 +36,7 @@ object Util {
         val lon1: Double = (Math.PI / 180)*(this.longitude)
         val lon2: Double = (Math.PI / 180)*(end.longitude)
         val r: Double = 6371.0
-        val d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1)* Math.cos(lat2)* Math.cos(lon2-lon1))*r
+        val d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1))*r
 
         return (d*1000).toInt()
     }
@@ -76,11 +75,16 @@ object Util {
         )
         val objectAnimator: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, scaleXValuesHolder, scaleYValuesHolder, rotateValuesHolder)
         objectAnimator.duration = duration
-        objectAnimator.addListener(object: AnimatorListenerAdapter() {
+        objectAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 endListener.invoke()
             }
         })
         objectAnimator.start()
+    }
+
+    fun dip2px(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
     }
 }
