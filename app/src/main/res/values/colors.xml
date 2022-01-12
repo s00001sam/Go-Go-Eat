@@ -33,11 +33,13 @@
     <color name="yellow_FFF8D7">#FFF8D7</color>
 
     <color name="yellow_bg">#FDF8DE</color>
-    <color name="yellow_top">#FFE97D</color>
+    <color name="yellow_top">#FFEFA2</color>
     <color name="blue_bg">#E7FAFF</color>
-    <color name="blue_top">#A6ECFF</color>
-    <color name="green_bg">#E6FDE4</color>
-    <color name="green_top">#B7FFB0</color>
+    <color name="blue_top">#C1F0FD</color>
+    <color name="green_bg">#DFFFE0</color>
+    <color name="green_top">#98EC9A</color>
     <color name="pink_bg">#FDEBF1</color>
-    <color name="pink_top">#FFAFCA</color>
+    <color name="pink_top">#FDC9DB</color>
+    <color name="orange_bg">#FFEFD8</color>
+    <color name="orange_top">#FDCA7F</color>
 </resources>

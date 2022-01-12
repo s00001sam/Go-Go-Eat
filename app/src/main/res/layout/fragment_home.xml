@@ -42,6 +42,15 @@
                 app:layout_constraintStart_toStartOf="@+id/lav_wheel"
                 app:layout_constraintTop_toTopOf="@+id/lav_wheel" />
 
+            <com.sam.gogoeat.view.customview.LuckyWheelView
+                android:id="@+id/luck_view"
+                android:layout_width="300dp"
+                android:layout_height="400dp"
+                android:layout_marginTop="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
