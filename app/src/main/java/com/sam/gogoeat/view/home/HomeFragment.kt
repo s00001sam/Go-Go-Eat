@@ -3,6 +3,8 @@ package com.sam.gogoeat.view.home
 import android.animation.Animator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -55,6 +58,11 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.luckyWheelView.visibility = View.VISIBLE
+            binding.luckyWheelView.showWithAnimation()
+        }, 1000)
         return binding.root
     }
 
@@ -69,20 +77,8 @@ class HomeFragment : Fragment() {
         setTabAndViewPager()
         setBottomSheet()
 
-        binding.lavWheel.addAnimatorListener(object : Animator.AnimatorListener{
-            override fun onAnimationRepeat(animation: Animator?) {}
-
-            override fun onAnimationEnd(animation: Animator?) {
-                mainViewModel.getRandomFoodIntoHistory()
-            }
-
-            override fun onAnimationCancel(animation: Animator?) {}
-
-            override fun onAnimationStart(animation: Animator?) {}
-        })
-
-        binding.vClick.setOnClickListener {
-            binding.lavWheel.playAnimation()
+        binding.luckyWheelView.setScrollFinishListener {
+            mainViewModel.getRandomFoodIntoHistory()
         }
 
         binding.bsAllList.tvSeeMore.setOnClickListener {

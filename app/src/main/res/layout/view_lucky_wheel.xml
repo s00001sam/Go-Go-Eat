@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1">
+
+        <com.sam.gogoeat.view.customview.LuckyWheelBodyView
+            android:id="@+id/wheel_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.sam.gogoeat.view.customview.LuckyWheelBgView
+            android:id="@+id/wheel_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

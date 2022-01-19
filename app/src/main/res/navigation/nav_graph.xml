@@ -7,6 +7,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.sam.gogoeat.view.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+    </fragment>
 
 </navigation>
