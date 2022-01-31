@@ -13,13 +13,4 @@ data class MapResp<T> (
 ): IResp<T>, Serializable {
 
     fun isSuccess() = status == "OK"
-
-    override fun toString(): String {
-        return "MapResp : {" +
-                "status=" + status +
-                ", data=" + data +
-                ", next_page_token=" + (nextPageToken ?: "null") +
-                ", error_message=" + (error ?: "null") +
-                "}"
-    }
 }

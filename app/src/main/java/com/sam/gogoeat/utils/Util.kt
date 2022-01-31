@@ -34,8 +34,8 @@ object Util {
         startActivity(mapIntent)
     }
 
-    fun checkHasPermission(context: Context, permission: String) : Boolean {
-        return ActivityCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+    fun checkHasPermission(permission: String) : Boolean {
+        return ActivityCompat.checkSelfPermission(MyApplication.appContext, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     fun getRandomNum(totalNum: Int) : Int {

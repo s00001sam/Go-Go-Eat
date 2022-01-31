@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkLocationPermission() {
-        if (!checkHasPermission(this, LOCATION_FINE)) {
+        if (!checkHasPermission(LOCATION_FINE)) {
             requestPermission.launch(LOCATION_FINE)
         } else {
             getNewLocation()
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getNewLocation(){
-        if (!checkHasPermission(this, LOCATION_FINE) && !checkHasPermission(this, LOCATION_COARSE)) {
+        if (!checkHasPermission(LOCATION_FINE) && !checkHasPermission(LOCATION_COARSE)) {
             return
         }
         LocationRequest.create().apply {
@@ -90,9 +90,7 @@ class MainActivity : AppCompatActivity() {
             interval = 10 * 1000
             fastestInterval = 10 * 1000
             Looper.myLooper()?.let {
-                fusedLocationProviderClient.requestLocationUpdates(this ,locationCallback,
-                    it
-                )
+                fusedLocationProviderClient.requestLocationUpdates(this ,locationCallback, it)
             }
         }
     }

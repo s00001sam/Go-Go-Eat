@@ -2,9 +2,9 @@ package com.sam.gogoeat.api.usecase.basic
 
 import android.util.Log
 import com.sam.gogoeat.api.resp.*
+import com.sam.gogoeat.api.resp.base.ErrorUtil
 import com.sam.gogoeat.api.resp.base.IResp
 import com.sam.gogoeat.api.resp.base.Resource
-import com.sam.gogoeat.api.resp.base.StatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -37,52 +37,34 @@ abstract class ResourceUseCase<out Type : Resource<ResponseValue>, in Params, Re
         try {
             result = getResponse(params)
         } catch (e: Exception) {
-            e.printStackTrace()
             Log.i("sam",e.toString())
-            if (e is HttpException) {
-                return Resource.error(e.code(), e.message())
-            } else {
-                return Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, e.toString())
-            }
+            return Resource.error(ErrorUtil.getErrorMsg(e))
         }
 
         if (result.isSuccessful) {
             val body = result.body()
             if (body != null) {
                 finalResource = when (body) {
-                    is BaseResp<*> -> {
-                        processBaseRespResource(body as BaseResp<ResponseValue>)
-                    }
                     is MapResp<*> -> {
                         processMapRespResource(body as MapResp<ResponseValue>)
                     }
                     else -> {
-                        Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, "wrong format type")
+                        Resource.error( "wrong format type")
                     }
                 }
             } else {
-                finalResource = Resource.error(result.code(), "empty body")
+                finalResource = Resource.error("empty body")
             }
         } else {
-            finalResource = Resource.error(result.code(), result.message())
+            finalResource = Resource.error(result.message())
         }
         return finalResource
-    }
-
-    private fun processBaseRespResource(response: BaseResp<ResponseValue>): Resource<ResponseValue> {
-        return if (response.isSuccess())
-            Resource.success(response.data)
-        else
-            Resource.error(response.status?.code
-                    ?: StatusCode.CODE_ERROR_JSON_ERROR, response.status?.msg
-                    ?: "processBaseRespResource, empty error")
     }
 
     private fun processMapRespResource(response: MapResp<ResponseValue>): Resource<ResponseValue> {
         if (response.isSuccess())
             return Resource.success(response.data, response.nextPageToken)
         else
-            return Resource.error(StatusCode.CODE_ERROR_JSON_ERROR, response.error
-                ?: "processMapRespResource, empty error")
+            return Resource.error(response.error ?: "processMapRespResource, empty error")
     }
 }
