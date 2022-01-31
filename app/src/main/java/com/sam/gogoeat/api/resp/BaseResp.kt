@@ -1,18 +1,18 @@
 package com.sam.gogoeat.api.resp
 
-import com.google.gson.annotations.SerializedName
 import com.sam.gogoeat.api.resp.base.IResp
 import com.sam.gogoeat.api.resp.base.RespStatus
+import com.squareup.moshi.Json
 import java.io.Serializable
 
 /**
  * 基本Resp
  */
 class BaseResp<T> : IResp<T>, Serializable {
-    @SerializedName("status")
+    @Json(name = "status")
     var status: RespStatus? = null
 
-    @SerializedName("data")
+    @Json(name = "data")
     var data: T? = null
 
 

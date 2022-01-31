@@ -1,4 +1,4 @@
-package com.sam.gogoeat.view
+package com.sam.gogoeat.view.support
 
 import android.content.Context
 import android.util.AttributeSet

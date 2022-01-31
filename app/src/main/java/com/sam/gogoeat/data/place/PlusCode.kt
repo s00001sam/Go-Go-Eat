@@ -1,7 +1,7 @@
 package com.sam.gogoeat.data.place
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class PlusCode(

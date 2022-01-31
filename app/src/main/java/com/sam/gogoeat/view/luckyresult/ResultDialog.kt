@@ -17,9 +17,11 @@ import com.sam.gogoeat.R
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.DialogResultBinding
 import com.sam.gogoeat.utils.Util.gotoMap
+import com.sam.gogoeat.utils.Util.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ResultDialog : AppCompatDialogFragment() {
@@ -100,19 +102,15 @@ class ResultDialog : AppCompatDialogFragment() {
     }
 
     private fun initCollect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.newPlace.collectLatest {
-                binding.tvName.text = it.name
-            }
-        }
+        viewModel.newPlace.onEach {
+            binding.tvName.text = it.name
+        }.launchWhenStarted(viewLifecycleOwner)
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.leaveControl.collectLatest {
-                if (it) {
-                    dismiss()
-                    viewModel.leaveComplete()
-                }
+        viewModel.leaveControl.onEach {
+            if (it) {
+                dismiss()
+                viewModel.leaveComplete()
             }
-        }
+        }.launchWhenStarted(viewLifecycleOwner)
     }
 }

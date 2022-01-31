@@ -1,20 +1,15 @@
 package com.sam.gogoeat.view.home
 
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -22,19 +17,16 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.utils.Util.gotoMap
-import com.sam.gogoeat.view.CustomerBottomSheetBehavior
+import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.luckyresult.ResultDialog
 import com.sam.gogoeat.view.nearby.NearbyFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import java.lang.reflect.Field
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var binding: FragmentHomeBinding
@@ -50,6 +42,17 @@ class HomeFragment : Fragment() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.luckyWheelView.visibility = View.VISIBLE
+        binding.luckyWheelView.showWithAnimation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //todo sam00 dismiss luckywheel
+    }
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -58,18 +61,13 @@ class HomeFragment : Fragment() {
         binding.viewModel = viewModel
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.lifecycleOwner = viewLifecycleOwner
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.luckyWheelView.visibility = View.VISIBLE
-            binding.luckyWheelView.showWithAnimation()
-        }, 1000)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        observeFlows()
+        collectFlows()
     }
 
     private fun initViews() {
@@ -91,35 +89,31 @@ class HomeFragment : Fragment() {
         binding.bsAllList.rvCollapseStore.adapter = collapseStoreAdapter
     }
 
-    private fun observeFlows() {
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.isListIconClick.collect {
-                if (it) showBottomSheet() else collapseBottomSheet()
+    @SuppressLint("NotifyDataSetChanged")
+    private fun collectFlows() {
+        mainViewModel.isListIconClick.collectDataState {
+            if (it) showBottomSheet() else collapseBottomSheet()
+        }
+
+        mainViewModel.newHistoryItem.collectDataState {
+            it?.let {
+                ResultDialog.show(parentFragmentManager, it)
             }
         }
 
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.newHistoryItem.collectLatest {
-                it?.let {
-                    ResultDialog.show(parentFragmentManager, it)
-                }
-            }
-        }
-
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.nearbyFoodResult.collect {
-                if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                    val list = it.data.sortedBy { it.distance }
-                    (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).submitList(list)
-                    (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).notifyDataSetChanged()
-                }
+        mainViewModel.nearbyFoodResult.collectDataState {
+            if (it.isLoading()) showLoading() else dismissLoading()
+            if (it.isSuccess() && !it.data.isNullOrEmpty()) {
+                val list = it.data.sortedBy { it.distance }
+                (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).submitList(list)
+                (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).notifyDataSetChanged()
             }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setBottomSheet() {
-        bottomBehavior = BottomSheetBehavior.from(bs_all_list)
+        bottomBehavior = BottomSheetBehavior.from(binding.bsAllList.root)
         bottomBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 if (slideOffset != 0f) {

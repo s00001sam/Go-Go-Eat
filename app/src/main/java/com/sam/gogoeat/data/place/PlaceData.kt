@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.getDinstance
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 import kotlinx.android.parcel.RawValue
 
 @Parcelize

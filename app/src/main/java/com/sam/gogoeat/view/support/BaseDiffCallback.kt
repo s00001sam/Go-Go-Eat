@@ -1,4 +1,4 @@
-package com.sam.gogoeat.view
+package com.sam.gogoeat.view.support
 
 import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil

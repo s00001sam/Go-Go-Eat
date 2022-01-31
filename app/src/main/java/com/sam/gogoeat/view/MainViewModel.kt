@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearbyFoodsData) : ViewModel() {
 
-    private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing(null))
+    private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing())
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
     private val _isListIconClick = MutableStateFlow<Boolean>(false)

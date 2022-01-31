@@ -38,8 +38,8 @@ data class Resource<out T>(val status: Status, val data: T?, val message: ErrorM
             return Resource(Status.LOADING, data, null)
         }
 
-        fun <T> nothing(data: T?): Resource<T> {
-            return Resource(Status.NOTHING, data, null)
+        fun <T> nothing(): Resource<T> {
+            return Resource(Status.NOTHING, null, null)
         }
     }
 
@@ -52,7 +52,8 @@ data class Resource<out T>(val status: Status, val data: T?, val message: ErrorM
     fun isFailed(): Boolean = status == Status.ERROR
     fun isFinished(): Boolean = status != Status.LOADING
     fun isLoading(): Boolean = status == Status.LOADING
-    fun isUnknownFinished(): Boolean = status != Status.UNKNOWN_FINISH
+    fun isUnknownFinished(): Boolean = status == Status.UNKNOWN_FINISH
+    fun isNothing(): Boolean = status == Status.NOTHING
     fun hasNextPage(): Boolean = !nextPageToken.isNullOrEmpty()
 }
 

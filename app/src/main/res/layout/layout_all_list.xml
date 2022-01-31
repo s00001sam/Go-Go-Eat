@@ -12,7 +12,7 @@
         android:background="@drawable/frame_sheet_collapse"
         app:behavior_hideable="false"
         app:behavior_peekHeight="350dp"
-        app:layout_behavior="com.sam.gogoeat.view.CustomerBottomSheetBehavior">
+        app:layout_behavior="com.sam.gogoeat.view.support.CustomerBottomSheetBehavior">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/linearLayoutCompat"

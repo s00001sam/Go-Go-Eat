@@ -4,12 +4,11 @@ import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.R
@@ -17,10 +16,9 @@ import com.sam.gogoeat.databinding.ActivityMainBinding
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import com.sam.gogoeat.utils.Util.startShakeAnim
+import com.sam.gogoeat.view.loading.LoadingDialog
 import com.sam.gogoeat.view.search.SearchDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -32,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
+    private var dialog: AppCompatDialogFragment? = null
     private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
@@ -64,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         checkLocationPermission()
         initView()
-        initCollect()
     }
 
     private fun initView() {
@@ -74,8 +72,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun initCollect() {}
 
     private fun checkLocationPermission() {
         if (!checkHasPermission(this, LOCATION_FINE)) {
@@ -93,8 +89,23 @@ class MainActivity : AppCompatActivity() {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             interval = 10 * 1000
             fastestInterval = 10 * 1000
-            fusedLocationProviderClient.requestLocationUpdates(this ,locationCallback, Looper.myLooper())
+            Looper.myLooper()?.let {
+                fusedLocationProviderClient.requestLocationUpdates(this ,locationCallback,
+                    it
+                )
+            }
         }
+    }
+
+    fun showLoading() {
+        if (dialog == null) {
+            dialog = LoadingDialog.show(supportFragmentManager)
+        }
+    }
+
+    fun dismissLoading() {
+        dialog?.dismiss()
+        dialog = null
     }
 
 }

@@ -8,9 +8,20 @@ import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.net.Uri
 import android.view.View
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
+import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.data.place.PlaceData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 object Util {
@@ -96,5 +107,21 @@ object Util {
         style = Paint.Style.STROKE
         strokeJoin = Paint.Join.ROUND
         strokeCap = Paint.Cap.ROUND
+    }
+
+    fun String.toast() {
+        Toast.makeText(MyApplication.appContext, this, Toast.LENGTH_SHORT).show()
+    }
+
+    fun <T> Flow<T>.launchWhenStarted(lifecycleOwner: LifecycleOwner)= with(lifecycleOwner) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                try {
+                    this@launchWhenStarted.collect()
+                }catch (t: Throwable){
+                    Logger.d("sam00 throwable=${t.localizedMessage}")
+                }
+            }
+        }
     }
 }

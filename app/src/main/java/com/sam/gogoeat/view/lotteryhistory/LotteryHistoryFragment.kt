@@ -1,26 +1,23 @@
 package com.sam.gogoeat.view.lotteryhistory
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.sam.gogoeat.databinding.FragmentLotteryHistoryBinding
 import com.sam.gogoeat.utils.Util.gotoMap
+import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.home.StoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LotteryHistoryFragment : Fragment() {
+class LotteryHistoryFragment : BaseFragment() {
 
     private val viewModel: LotteryHistoryViewModel by viewModels()
     private lateinit var binding: FragmentLotteryHistoryBinding
@@ -49,16 +46,14 @@ class LotteryHistoryFragment : Fragment() {
         collectFlow()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun collectFlow() {
-
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.historyList.collect {
-                (binding.rcyHistory.adapter as StoreAdapter).submitList(it)
-                (binding.rcyHistory.adapter as StoreAdapter).notifyDataSetChanged()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.rcyHistory.smoothScrollToPosition(0)
-                }, 500)
-            }
+        mainViewModel.historyList.collectDataState {
+            (binding.rcyHistory.adapter as StoreAdapter).submitList(it)
+            (binding.rcyHistory.adapter as StoreAdapter).notifyDataSetChanged()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.rcyHistory.smoothScrollToPosition(0)
+            }, 500)
         }
     }
 

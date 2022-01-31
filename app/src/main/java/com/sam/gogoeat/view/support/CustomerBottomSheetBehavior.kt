@@ -1,12 +1,10 @@
-package com.sam.gogoeat.view
+package com.sam.gogoeat.view.support
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.utils.Util
