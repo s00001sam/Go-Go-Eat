@@ -91,7 +91,7 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFlows() {
-        mainViewModel.isListIconClick.collectDataState {
+        viewModel.isListIconClick.collectDataState {
             if (it) showBottomSheet() else collapseBottomSheet()
         }
 
@@ -127,7 +127,7 @@ class HomeFragment : BaseFragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        mainViewModel.setIsListOpen(false)
+                        viewModel.setIsListOpen(false)
                         tabLayout.visibility = View.GONE
                         viewPager.visibility = View.GONE
                     }
@@ -135,7 +135,7 @@ class HomeFragment : BaseFragment() {
 
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        mainViewModel.setIsListOpen(true)
+                        viewModel.setIsListOpen(true)
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
 

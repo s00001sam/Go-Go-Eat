@@ -22,29 +22,18 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearbyFoodsData) : ViewModel() {
 
+    //API response list
     private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing())
     val nearbyFoodResult : StateFlow<Resource<List<PlaceData>>> = _nearbyFoodResult
 
-    private val _isListIconClick = MutableStateFlow<Boolean>(false)
-    val isListIconClick: StateFlow<Boolean> = _isListIconClick
-
+    //temp saved history list
     private val _historyList = MutableStateFlow<List<PlaceData>>(listOf())
     val historyList : StateFlow<List<PlaceData>> = _historyList
 
+    //the newest lottery item
     private val _newHistoryItem = MutableStateFlow<PlaceData?>(null)
     val newHistoryItem : StateFlow<PlaceData?> = _newHistoryItem
-
-    val savedFoodResult = mutableListOf<PlaceData>()
-    var saveToken = ""
     var firstGetLocation = false
-
-    fun setHistoryList(list: List<PlaceData>) {
-        _historyList.value = list
-    }
-
-    fun setIsListOpen(isOpen: Boolean) {
-        _isListIconClick.value = isOpen
-    }
 
     fun getNearbyFoods() {
         UserManager.myLocation.let { location ->
@@ -52,40 +41,6 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
             viewModelScope.launch {
                 getNearbyFoodsData.getFlow(req).collect {
                     _nearbyFoodResult.value = it
-                    if (it.isSuccess() && it.hasNextPage() && !it.data.isNullOrEmpty()) {
-                        it.nextPageToken?.let { token ->
-                            savedFoodResult.clear()
-                            savedFoodResult.addAll(it.data)
-                            saveToken = token
-                            Handler(Looper.getMainLooper()).postDelayed({ getMorePageFoods() }, 2000)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun getMorePageFoods() {
-        UserManager.myLocation.let { location ->
-            val req = PlaceReq.create(location.latitude, location.longitude, pageToken = saveToken)
-            viewModelScope.launch {
-                getNearbyFoodsData.getFlow(req).collect {
-                    if (it.isFinished()) {
-                        if (!it.data.isNullOrEmpty()) {
-                            savedFoodResult.addAll(it.data)
-                        }
-                        if (it.hasNextPage()) {
-                            it.nextPageToken?.let { token ->
-                                saveToken = token
-                                Handler(Looper.getMainLooper()).postDelayed({ getMorePageFoods() }, 2000)
-                            }
-                        } else {
-                            if (savedFoodResult.isNotEmpty()) {
-                                _nearbyFoodResult.value = Resource.success(savedFoodResult)
-                                saveToken = ""
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -94,7 +49,6 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     fun getRandomFoodIntoHistory() {
         nearbyFoodResult.value.data?.let {
             if (it.isEmpty()) return
-
             val list = mutableListOf<PlaceData>()
             val newItem = it[Util.getRandomNum(it.size)]
             list.addAll(historyList.value)

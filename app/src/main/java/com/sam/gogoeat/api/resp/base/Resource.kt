@@ -31,6 +31,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
         fun <T> nothing(): Resource<T> {
             return Resource(Status.NOTHING, null, null)
         }
+
     }
 
     override fun toString(): String {
@@ -43,7 +44,7 @@ data class Resource<out T>(val status: Status, val data: T?, val message: String
     fun isLoading(): Boolean = status == Status.LOADING
     fun isUnknownFinished(): Boolean = status == Status.UNKNOWN_FINISH
     fun isNothing(): Boolean = status == Status.NOTHING
-    fun hasNextPage(): Boolean = !nextPageToken.isNullOrEmpty()
+    fun hasNextPage(): Boolean = status == Status.SUCCESS && !nextPageToken.isNullOrEmpty()
 }
 
 enum class Status {
