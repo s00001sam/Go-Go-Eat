@@ -19,8 +19,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.data.place.PlaceData
+import com.sam.gogoeat.utils.Util.launchWhenStarted
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 
@@ -113,13 +115,19 @@ object Util {
         Toast.makeText(MyApplication.appContext, this, Toast.LENGTH_SHORT).show()
     }
 
-    fun <T> Flow<T>.launchWhenStarted(lifecycleOwner: LifecycleOwner)= with(lifecycleOwner) {
+    fun <T> Flow<T>.collectFlow(lifecycleOwner: LifecycleOwner, doSomething:((t: T)-> Unit)) {
+        this.onEach {
+            doSomething.invoke(it)
+        }.launchWhenStarted(lifecycleOwner)
+    }
+
+    private fun <T> Flow<T>.launchWhenStarted(lifecycleOwner: LifecycleOwner)= with(lifecycleOwner) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 try {
                     this@launchWhenStarted.collect()
                 }catch (t: Throwable){
-                    Logger.d("sam00 throwable=${t.localizedMessage}")
+                    Logger.d("launchWhenStarted throwable=${t.localizedMessage}")
                 }
             }
         }

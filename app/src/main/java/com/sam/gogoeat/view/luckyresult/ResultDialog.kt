@@ -3,7 +3,6 @@ package com.sam.gogoeat.view.luckyresult
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +11,12 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.sam.gogoeat.R
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.databinding.DialogResultBinding
+import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
-import com.sam.gogoeat.utils.Util.launchWhenStarted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
@@ -102,15 +98,15 @@ class ResultDialog : AppCompatDialogFragment() {
     }
 
     private fun initCollect() {
-        viewModel.newPlace.onEach {
+        viewModel.newPlace.collectFlow(viewLifecycleOwner) {
             binding.tvName.text = it.name
-        }.launchWhenStarted(viewLifecycleOwner)
+        }
 
-        viewModel.leaveControl.onEach {
+        viewModel.leaveControl.collectFlow(viewLifecycleOwner) {
             if (it) {
                 dismiss()
                 viewModel.leaveComplete()
             }
-        }.launchWhenStarted(viewLifecycleOwner)
+        }
     }
 }

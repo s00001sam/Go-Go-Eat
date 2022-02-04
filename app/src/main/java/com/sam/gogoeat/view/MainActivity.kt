@@ -3,18 +3,18 @@ package com.sam.gogoeat.view
 import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Looper
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.ActivityMainBinding
+import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
+import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.startShakeAnim
 import com.sam.gogoeat.view.loading.LoadingDialog
 import com.sam.gogoeat.view.search.SearchDialog
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private var dialog: AppCompatDialogFragment? = null
-    private val fusedLocationProviderClient: FusedLocationProviderClient by lazy {
+    private val locationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -45,17 +45,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val locationCallback = object : LocationCallback(){
-        override fun onLocationResult(p0: LocationResult) {
-            val lastLocation = p0.lastLocation
-            UserManager.myLocation = LatLng(lastLocation.latitude, lastLocation.longitude)
-            if (!viewModel.firstGetLocation) {
-                viewModel.firstGetLocation = true
-                viewModel.getNearbyFoods()
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -63,12 +52,26 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         checkLocationPermission()
         initView()
+        initCollect()
     }
 
     private fun initView() {
         binding.ivSearch.setOnClickListener {
             it.startShakeAnim(0.5f, 1.5f, 30f, 1000) {
                 SearchDialog.show(supportFragmentManager)
+            }
+        }
+    }
+
+    private fun initCollect() {
+        viewModel.locationResult.collectFlow(this) {
+            Logger.d("my location=${it.data}")
+            if (it.isSuccess() && it.data != null) {
+                UserManager.myLocation = it.data
+                if (!viewModel.firstGetLocation) {
+                    viewModel.firstGetLocation = true
+                    viewModel.getNearbyFoods()
+                }
             }
         }
     }
@@ -82,17 +85,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getNewLocation(){
-        if (!checkHasPermission(LOCATION_FINE) && !checkHasPermission(LOCATION_COARSE)) {
-            return
-        }
-        LocationRequest.create().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 10 * 1000
-            fastestInterval = 10 * 1000
-            Looper.myLooper()?.let {
-                fusedLocationProviderClient.requestLocationUpdates(this ,locationCallback, it)
-            }
-        }
+        viewModel.getLocation(locationClient)
     }
 
     fun showLoading() {

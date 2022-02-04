@@ -1,11 +1,11 @@
 package com.sam.gogoeat.view
 
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.api.resp.base.Resource
+import com.sam.gogoeat.api.usecase.GetLocation
 import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceReq
@@ -14,13 +14,15 @@ import com.sam.gogoeat.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearbyFoodsData) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val getNearbyFoodsData: GetNearbyFoodsData,
+    private val getLocation: GetLocation
+) : ViewModel() {
 
     //API response list
     private val _nearbyFoodResult = MutableStateFlow<Resource<List<PlaceData>>>(Resource.nothing())
@@ -33,6 +35,10 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
     //the newest lottery item
     private val _newHistoryItem = MutableStateFlow<PlaceData?>(null)
     val newHistoryItem : StateFlow<PlaceData?> = _newHistoryItem
+
+    private val _locationResult = MutableStateFlow<Resource<LatLng>>(Resource.nothing())
+    val locationResult : StateFlow<Resource<LatLng>> = _locationResult
+
     var firstGetLocation = false
 
     fun getNearbyFoods() {
@@ -55,6 +61,14 @@ class MainViewModel @Inject constructor(private val getNearbyFoodsData: GetNearb
             list.add(0, newItem)
             _newHistoryItem.value = newItem
             _historyList.value = list
+        }
+    }
+
+    fun getLocation(client: FusedLocationProviderClient) {
+        viewModelScope.launch {
+            getLocation.getFlow(client).collect {
+                _locationResult.value = it
+            }
         }
     }
 

@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
@@ -46,11 +47,6 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         binding.luckyWheelView.visibility = View.VISIBLE
         binding.luckyWheelView.showWithAnimation()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        //todo sam00 dismiss luckywheel
     }
 
     override fun onCreateView(
@@ -91,17 +87,17 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFlows() {
-        viewModel.isListIconClick.collectDataState {
+        viewModel.isListIconClick.collectFlow(viewLifecycleOwner) {
             if (it) showBottomSheet() else collapseBottomSheet()
         }
 
-        mainViewModel.newHistoryItem.collectDataState {
+        mainViewModel.newHistoryItem.collectFlow(viewLifecycleOwner) {
             it?.let {
                 ResultDialog.show(parentFragmentManager, it)
             }
         }
 
-        mainViewModel.nearbyFoodResult.collectDataState {
+        mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
             if (it.isLoading()) showLoading() else dismissLoading()
             if (it.isSuccess() && !it.data.isNullOrEmpty()) {
                 val list = it.data.sortedBy { it.distance }

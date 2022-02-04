@@ -1,6 +1,6 @@
 package com.sam.gogoeat.hilt
 
-import com.sam.gogoeat.api.repository.Repository
+import com.sam.gogoeat.api.repository.BaseRepository
 import com.sam.gogoeat.api.repository.datasourse.DataSource
 import dagger.Module
 import dagger.Provides
@@ -11,5 +11,5 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Module
 class RepositoryModule {
     @Provides
-    fun provideRepository(@RemoteData remoteDataSource: DataSource, @LocalData localDataSource: DataSource,) = Repository(remoteDataSource, localDataSource)
+    fun provideRepository(@RemoteData remoteDataSource: DataSource, @LocalData localDataSource: DataSource,) = BaseRepository(remoteDataSource, localDataSource)
 }

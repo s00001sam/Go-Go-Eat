@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.sam.gogoeat.databinding.FragmentLotteryHistoryBinding
+import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
@@ -48,7 +49,7 @@ class LotteryHistoryFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFlow() {
-        mainViewModel.historyList.collectDataState {
+        mainViewModel.historyList.collectFlow(viewLifecycleOwner) {
             (binding.rcyHistory.adapter as StoreAdapter).submitList(it)
             (binding.rcyHistory.adapter as StoreAdapter).notifyDataSetChanged()
             Handler(Looper.getMainLooper()).postDelayed({

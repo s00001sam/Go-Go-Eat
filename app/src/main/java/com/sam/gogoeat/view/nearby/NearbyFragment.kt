@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.sam.gogoeat.databinding.FragmentNearbyBinding
+import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
@@ -50,7 +51,7 @@ class NearbyFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeFlows() {
-        mainViewModel.nearbyFoodResult.collectDataState {
+        mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
             if (it.isSuccess() && !it.data.isNullOrEmpty()) {
                 val list = it.data.sortedBy { it.distance }
                 (binding.rcyNearby.adapter as StoreAdapter).submitList(list)

@@ -6,7 +6,6 @@ import com.sam.gogoeat.api.resp.base.Resource
 import com.sam.gogoeat.api.usecase.basic.ResourceUseCase
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceReq
-import com.sam.gogoeat.utils.Logger
 import kotlinx.coroutines.delay
 import retrofit2.Response
 

@@ -1,6 +1,7 @@
 package com.sam.gogoeat.hilt
 
-import com.sam.gogoeat.api.repository.Repository
+import com.sam.gogoeat.api.repository.BaseRepository
+import com.sam.gogoeat.api.usecase.GetLocation
 import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
 import dagger.Module
 import dagger.Provides
@@ -12,5 +13,8 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class UseCaseModule {
 
     @Provides
-    fun provideGetNearbyFoodsData(repository: Repository) = GetNearbyFoodsData(repository)
+    fun provideGetNearbyFoodsData(repository: BaseRepository) = GetNearbyFoodsData(repository)
+
+    @Provides
+    fun provideGetLocation(repository: BaseRepository) = GetLocation(repository)
 }
