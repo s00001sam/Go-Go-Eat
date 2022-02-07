@@ -51,16 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         checkLocationPermission()
-        initView()
         initCollect()
-    }
-
-    private fun initView() {
-        binding.ivSearch.setOnClickListener {
-            it.startShakeAnim(0.5f, 1.5f, 30f, 1000) {
-                SearchDialog.show(supportFragmentManager)
-            }
-        }
     }
 
     private fun initCollect() {
