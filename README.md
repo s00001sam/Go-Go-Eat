@@ -8,7 +8,8 @@
 * Hilt 依賴注入
 * Coroutine Flow 運用
 * Google Map SDK - Place Search API
-* BottomSheetBehavior 列表呈現
-* Canvas 畫出啟動動畫以及輪盤
+* Customer BottomSheetBehavior
+* Canvas 客製化啟動動畫
+* CustomerView 輪盤
 * gitHub Action CICD (未完成)
 * Unit Test (未完成)
