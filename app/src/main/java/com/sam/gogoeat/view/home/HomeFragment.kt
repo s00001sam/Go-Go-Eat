@@ -94,6 +94,7 @@ class HomeFragment : BaseFragment() {
         mainViewModel.newHistoryItem.collectFlow(viewLifecycleOwner) {
             it?.let {
                 ResultDialog.show(parentFragmentManager, it)
+                mainViewModel.newHistoryShowFinish()
             }
         }
 

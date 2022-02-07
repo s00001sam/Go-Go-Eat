@@ -41,6 +41,10 @@ class MainViewModel @Inject constructor(
 
     var firstGetLocation = false
 
+    fun newHistoryShowFinish() {
+        _newHistoryItem.value = null
+    }
+
     fun getNearbyFoods() {
         UserManager.myLocation.let { location ->
             val req = PlaceReq.create(location.latitude, location.longitude)
