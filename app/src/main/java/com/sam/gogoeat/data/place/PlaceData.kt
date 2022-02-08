@@ -30,5 +30,5 @@ data class PlaceData(
         get() = LatLng(geometry?.location?.lat ?: 25.0 , geometry?.location?.lng ?: 121.0)
 
     val distance: Int
-        get() = UserManager.myLocation.getDinstance(storeLatlng)
+        get() = UserManager.mySettingData.myLocation.getDinstance(storeLatlng)
 }

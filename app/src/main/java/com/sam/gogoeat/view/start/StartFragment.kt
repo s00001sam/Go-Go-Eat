@@ -8,7 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sam.gogoeat.databinding.FragmentStartBinding
 import com.sam.gogoeat.view.support.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StartFragment : BaseFragment() {
 
     private lateinit var binding: FragmentStartBinding

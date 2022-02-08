@@ -1,7 +1,7 @@
 package com.sam.gogoeat.utils
 
-import com.google.android.gms.maps.model.LatLng
+import com.sam.gogoeat.data.SettingData
 
 object UserManager {
-    var myLocation : LatLng = LatLng(24.0, 121.0)
+    var mySettingData = SettingData()
 }

@@ -1,7 +1,6 @@
 package com.sam.gogoeat.api.apiservice
 
 import com.sam.gogoeat.api.resp.MapResp
-import com.sam.gogoeat.data.Article
 import com.sam.gogoeat.data.place.PlaceData
 import retrofit2.Response
 import retrofit2.http.GET

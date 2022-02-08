@@ -15,9 +15,7 @@ import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import com.sam.gogoeat.utils.Util.collectFlow
-import com.sam.gogoeat.utils.Util.startShakeAnim
 import com.sam.gogoeat.view.loading.LoadingDialog
-import com.sam.gogoeat.view.search.SearchDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.locationResult.collectFlow(this) {
             Logger.d("my location=${it.data}")
             if (it.isSuccess() && it.data != null) {
-                UserManager.myLocation = it.data
+                UserManager.mySettingData.myLocation = it.data
                 if (!viewModel.firstGetLocation) {
                     viewModel.firstGetLocation = true
                     viewModel.getNearbyFoods()

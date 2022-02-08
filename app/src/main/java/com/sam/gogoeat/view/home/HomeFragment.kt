@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -74,11 +75,12 @@ class HomeFragment : BaseFragment() {
         binding.luckyWheelView.setScrollFinishListener {
             mainViewModel.getRandomFoodIntoHistory()
         }
-
         binding.bsAllList.tvSeeMore.setOnClickListener {
             showBottomSheet()
         }
-
+        binding.ivSearch.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+        }
     }
 
     private fun initRcyCollapse() {

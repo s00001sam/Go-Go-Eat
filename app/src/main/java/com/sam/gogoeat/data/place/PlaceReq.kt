@@ -2,6 +2,7 @@ package com.sam.gogoeat.data.place
 
 import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.R
+import com.sam.gogoeat.utils.UserManager
 
 data class PlaceReq (
     var location: String? = null,
@@ -15,17 +16,19 @@ data class PlaceReq (
     companion object {
         private const val TYPE_EAT = "restaurant|food"
 
-        fun create(lat: Double, lng: Double, radius: Int? = 1500, keyword: String? = null, opennow: Boolean? = null, pageToken: String? = null) : PlaceReq {
-            val locationNow = "$lat,$lng"
-            return PlaceReq(
-                location = locationNow,
-                radius = radius,
-                type = TYPE_EAT,
-                keyword = keyword,
-                key = MyApplication.appContext.getString(R.string.map_key),
-                opennow = opennow,
-                pageToken = pageToken
-            )
+        fun create() : PlaceReq {
+            UserManager.mySettingData.run {
+                val locationNow = "${myLocation.latitude},${myLocation.longitude}"
+                return PlaceReq(
+                    location = locationNow,
+                    radius = distance,
+                    type = if (onlyFindRestaurant) TYPE_EAT else null,
+                    keyword = keyWord,
+                    key = MyApplication.appContext.getString(R.string.map_key),
+                    opennow = if (isOpen) isOpen else null,
+                    pageToken = null
+                )
+            }
         }
     }
 }

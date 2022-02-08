@@ -46,12 +46,9 @@ class MainViewModel @Inject constructor(
     }
 
     fun getNearbyFoods() {
-        UserManager.myLocation.let { location ->
-            val req = PlaceReq.create(location.latitude, location.longitude)
-            viewModelScope.launch {
-                getNearbyFoodsData.getFlow(req).collect {
-                    _nearbyFoodResult.value = it
-                }
+        viewModelScope.launch {
+            getNearbyFoodsData.getFlow(PlaceReq.create()).collect {
+                _nearbyFoodResult.value = it
             }
         }
     }

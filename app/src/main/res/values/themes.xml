@@ -15,4 +15,14 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">32dp</item>
     </style>
+
+    <style name="SliderTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/orange</item>
+    </style>
+
+    <style name="CheckBoxTheme">
+        <item name="colorAccent">#fff</item>   <!-- normal border color change as you wish -->
+        <item name="colorControlNormal">#6d6d77</item>   <!-- normal border color change as you wish -->
+        <item name="colorControlActivated">@color/orange</item> <!-- activated color change as you wish -->
+    </style>
 </resources>

@@ -7,7 +7,11 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.sam.gogoeat.view.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+    </fragment>
     <fragment
         android:id="@+id/startFragment"
         android:name="com.sam.gogoeat.view.start.StartFragment"
@@ -22,5 +26,9 @@
             app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.sam.gogoeat.view.search.SearchFragment"
+        android:label="SearchFragment" />
 
 </navigation>

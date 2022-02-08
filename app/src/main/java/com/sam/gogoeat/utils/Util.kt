@@ -9,18 +9,16 @@ import android.content.res.Resources.getSystem
 import android.graphics.Paint
 import android.net.Uri
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.data.place.PlaceData
-import com.sam.gogoeat.utils.Util.launchWhenStarted
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -137,4 +135,14 @@ object Util {
     fun Int.px2dp() = (this / getSystem().displayMetrics.density).toInt()
 
     fun Int.dp2px() = (this * getSystem().displayMetrics.density).toInt()
+
+    fun View.showKeyboard() {
+        (MyApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .showSoftInput(this, InputMethodManager.SHOW_FORCED)
+    }
+
+    fun View.hideKeyboard() {
+        (MyApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(windowToken, 0)
+    }
 }
