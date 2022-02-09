@@ -18,9 +18,20 @@ import retrofit2.Response
 
 class LocalDataSource : DataSource {
 
-    override suspend fun getNearbyPlaces(location: String?, radius: Int?, type: String?, keyword: String?, key: String?, opennow: Boolean?, pageToken: String?): Response<MapResp<List<PlaceData>>> {
+    override suspend fun getNearbyPlaces(
+        location: String?,
+        radius: Int?,
+        type: String?,
+        keyword: String?,
+        key: String?,
+        opennow: Boolean?,
+        minprice: Int?,
+        maxprice: Int?,
+        pageToken: String?
+    ): Response<MapResp<List<PlaceData>>> {
         TODO("Not yet implemented")
     }
+
 
     override suspend fun getLocation(
         client: FusedLocationProviderClient

@@ -15,6 +15,8 @@ interface DataSource {
                                 keyword: String? = null,
                                 key: String? = null,
                                 opennow: Boolean? = null,
+                                minprice: Int?,
+                                maxprice: Int?,
                                 pageToken: String? = null): Response<MapResp<List<PlaceData>>>
 
     suspend fun getLocation(client: FusedLocationProviderClient): Flow<LatLng?>

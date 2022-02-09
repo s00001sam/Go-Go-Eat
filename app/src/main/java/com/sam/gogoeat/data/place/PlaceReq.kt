@@ -11,6 +11,8 @@ data class PlaceReq (
     var keyword: String? = null,
     var key: String? = null,
     var opennow: Boolean? = null,
+    var minprice: Int?,
+    var maxprice: Int?,
     var pageToken: String? = null
 ) {
     companion object {
@@ -26,9 +28,26 @@ data class PlaceReq (
                     keyword = keyWord,
                     key = MyApplication.appContext.getString(R.string.map_key),
                     opennow = if (isOpen) isOpen else null,
+                    minprice = priceLevel.getPrice(true),
+                    maxprice = priceLevel.getPrice(false),
                     pageToken = null
                 )
             }
+        }
+
+        private fun Int.getPrice(isMin: Boolean) : Int? {
+            if (isMin) {
+                when(this) {
+                    1 -> return 0
+                    2 -> return 2
+                }
+            } else {
+                when(this) {
+                    1 -> return 2
+                    2 -> return 4
+                }
+            }
+            return null
         }
     }
 }

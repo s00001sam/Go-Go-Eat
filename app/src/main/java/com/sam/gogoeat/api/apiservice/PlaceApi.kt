@@ -16,6 +16,8 @@ interface PlaceApi {
         @Query("keyword") keyword: String? = null,
         @Query("key") key: String? = null,
         @Query("opennow") opennow: Boolean? = null,
+        @Query("minprice") maxprice: Int? = null,
+        @Query("maxprice") minprice: Int? = null,
         @Query("pagetoken") pageToken: String? = null,
     ): Response<MapResp<List<PlaceData>>>
 

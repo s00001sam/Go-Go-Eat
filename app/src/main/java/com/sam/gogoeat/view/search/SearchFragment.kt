@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,9 @@ import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.hideKeyboard
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.support.BaseFragment
+import com.sam.gogoeat.view.support.PriceSpinner
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment() {
@@ -22,6 +25,9 @@ class SearchFragment : BaseFragment() {
     private lateinit var binding: FragmentSearchBinding
     private val viewModel : SearchViewModel by viewModels()
     private lateinit var mainViewModel: MainViewModel
+
+    @Inject
+    lateinit var priceSpinner: PriceSpinner
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +50,20 @@ class SearchFragment : BaseFragment() {
         binding.sliderDistance.value = UserManager.mySettingData.distance.toFloat()
         binding.etWord.setOnFocusChangeListener { v, hasFocus ->
             viewModel.keyFocus.value = hasFocus
+        }
+        priceSpinner.setShowListener {
+            viewModel.setPriceFocus(true)
+        }
+        priceSpinner.setDismissListener {
+            viewModel.setPriceFocus(false)
+        }
+        priceSpinner.setItemClickListener { priceLevel, priceStr ->
+            viewModel.setPrice(priceLevel, priceStr)
+        }
+        binding.btnPrice.setOnClickListener {
+            it.doOnLayout { v ->
+                priceSpinner.show(v, v.measuredWidth, viewModel.priceLevelNum)
+            }
         }
         binding.ivBack.setOnClickListener {
             findNavController().navigateUp()

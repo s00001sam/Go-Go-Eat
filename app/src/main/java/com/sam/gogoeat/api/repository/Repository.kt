@@ -11,7 +11,7 @@ interface Repository {
 
     suspend fun getNearbyPlaces(
         location: String? = null, radius: Int? = null, type: String? = null, keyword: String? = null,
-        key: String? = null, opennow: Boolean?, pageToken: String?
+        key: String? = null, opennow: Boolean?, minprice: Int?, maxprice: Int?,pageToken: String?
     ): Response<MapResp<List<PlaceData>>>
 
     suspend fun getLocation(client: FusedLocationProviderClient) : Flow<LatLng?>

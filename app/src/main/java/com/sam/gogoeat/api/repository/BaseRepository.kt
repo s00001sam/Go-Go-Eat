@@ -13,8 +13,8 @@ class BaseRepository (
         private val localDataSource: DataSource,
 ) : Repository {
 
-    override suspend fun getNearbyPlaces(location: String?, radius: Int?, type: String?, keyword: String?, key: String?, opennow: Boolean?, pageToken: String?): Response<MapResp<List<PlaceData>>> {
-        return remoteDataSource.getNearbyPlaces(location, radius, type, keyword, key, opennow, pageToken)
+    override suspend fun getNearbyPlaces(location: String?, radius: Int?, type: String?, keyword: String?, key: String?, opennow: Boolean?, minprice: Int?, maxprice: Int?,pageToken: String?): Response<MapResp<List<PlaceData>>> {
+        return remoteDataSource.getNearbyPlaces(location, radius, type, keyword, key, opennow, minprice, maxprice, pageToken)
     }
 
     override suspend fun getLocation(client: FusedLocationProviderClient): Flow<LatLng?> {

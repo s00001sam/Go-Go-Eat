@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="s"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_price"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
+            android:paddingStart="5dp"
+            android:text="@{s}"
+            android:textSize="14sp"
+            android:background="@drawable/frame_item_price_selector"
+            android:textColor="@color/black_4F4F4F"
+            android:lineSpacingExtra="5.6sp"
+            android:gravity="center"
+            tools:text="低價位" />
+
+    </LinearLayout>
+</layout>

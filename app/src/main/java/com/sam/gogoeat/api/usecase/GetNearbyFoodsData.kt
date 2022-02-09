@@ -16,8 +16,8 @@ class GetNearbyFoodsData(private var repository: Repository) :
 
     override suspend fun getResponse(params: PlaceReq): Response<MapResp<List<PlaceData>>> {
         return repository.getNearbyPlaces(
-            params.location, params.radius, params.type, params.keyword,
-            params.key, params.opennow, params.pageToken)
+            params.location, params.radius, params.type, params.keyword, params.key,
+            params.opennow, params.minprice, params.maxprice, params.pageToken)
     }
 
     override suspend fun processAfterGetResource(
@@ -27,7 +27,7 @@ class GetNearbyFoodsData(private var repository: Repository) :
         if (!resource.hasNextPage() || resource.nextPageToken == preToken) return resource
         preToken = resource.nextPageToken
         params.pageToken = resource.nextPageToken
-        delay(1500)
+        delay(2000)
         val moreRes = getResource(params)
         val newRes = processAfterGetResource(params, resource.merge(moreRes))
         return newRes

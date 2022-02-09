@@ -17,8 +17,10 @@ class RemoteDataSource : DataSource {
         keyword: String?,
         key: String?,
         opennow: Boolean?,
+        minprice: Int?,
+        maxprice: Int?,
         pageToken: String?
-    ) = MapApi.apiService.getNearbyPlaces(location, radius, type, keyword, key, opennow, pageToken)
+    ) = MapApi.apiService.getNearbyPlaces(location, radius, type, keyword, key, opennow, minprice, maxprice, pageToken)
 
     override suspend fun getLocation(client: FusedLocationProviderClient): Flow<LatLng?> {
         TODO("Not yet implemented")
