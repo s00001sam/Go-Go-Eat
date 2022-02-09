@@ -18,4 +18,8 @@
     <string name="only_choose_restaurant">只尋找餐廳相關</string>
     <string name="search">搜尋</string>
     <string name="search_reset">重設</string>
+    <string name="is_open">營業中</string>
+    <string name="is_restaurant">餐廳</string>
+    <string name="is_not_restaurant">所有店家</string>
+    <string name="meter_radius">%1$d公尺內</string>
 </resources>

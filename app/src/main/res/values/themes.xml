@@ -25,4 +25,9 @@
         <item name="colorControlNormal">#6d6d77</item>   <!-- normal border color change as you wish -->
         <item name="colorControlActivated">@color/orange</item> <!-- activated color change as you wish -->
     </style>
+
+    <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

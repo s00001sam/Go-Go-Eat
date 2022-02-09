@@ -2,8 +2,6 @@ package com.sam.gogoeat.view.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +12,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
-import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.luckyresult.ResultDialog
 import com.sam.gogoeat.view.nearby.NearbyFragment
+import com.sam.gogoeat.view.support.BaseFragment
+import com.sam.gogoeat.view.support.PriceLevel
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Field
+
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -68,6 +71,7 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initViews() {
+        addTags()
         initRcyCollapse()
         setTabAndViewPager()
         setBottomSheet()
@@ -81,6 +85,24 @@ class HomeFragment : BaseFragment() {
         binding.ivSearch.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
+    }
+
+    private fun addTags() {
+        UserManager.mySettingData.run {
+            keyWord?.let { setChip(it) }
+            setChip(getString(R.string.meter_radius, distance))
+            if (priceLevel != PriceLevel.NONE.ordinal) setChip(UserManager.getMyPriceStr())
+            if (isOpen) setChip(getString(R.string.is_open))
+            setChip(if (onlyFindRestaurant) getString(R.string.is_restaurant) else getString(R.string.is_not_restaurant))
+        }
+    }
+
+    private fun setChip(tag: String) {
+        val chip = Chip(requireContext())
+        chip.text = tag
+        chip.setChipBackgroundColorResource(R.color.orange_top)
+        chip.setTextAppearance(R.style.ChipTextAppearance)
+        binding.chipTags.addView(chip)
     }
 
     private fun initRcyCollapse() {
