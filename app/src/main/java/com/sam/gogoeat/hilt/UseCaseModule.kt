@@ -1,7 +1,7 @@
 package com.sam.gogoeat.hilt
 
 import com.sam.gogoeat.api.repository.BaseRepository
-import com.sam.gogoeat.api.usecase.GetLocation
+import com.sam.gogoeat.api.usecase.GetMyLocation
 import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
 import dagger.Module
 import dagger.Provides
@@ -16,5 +16,5 @@ class UseCaseModule {
     fun provideGetNearbyFoodsData(repository: BaseRepository) = GetNearbyFoodsData(repository)
 
     @Provides
-    fun provideGetLocation(repository: BaseRepository) = GetLocation(repository)
+    fun provideGetLocation(repository: BaseRepository) = GetMyLocation(repository)
 }

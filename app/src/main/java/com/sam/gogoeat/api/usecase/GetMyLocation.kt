@@ -7,7 +7,7 @@ import com.sam.gogoeat.api.resp.base.Resource
 import com.sam.gogoeat.api.usecase.basic.CallbackUseCase
 import kotlinx.coroutines.flow.Flow
 
-class GetLocation(private var repository: Repository) :
+class GetMyLocation(private var repository: Repository) :
     CallbackUseCase<FusedLocationProviderClient, LatLng?, Resource<LatLng>>()
 {
     override suspend fun getResponse(params: FusedLocationProviderClient): Flow<LatLng?> {

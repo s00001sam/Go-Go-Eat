@@ -18,8 +18,8 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.R
+import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentHomeBinding
-import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
@@ -146,7 +146,7 @@ class HomeFragment : BaseFragment() {
         mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
             if (it.isLoading()) showLoading() else dismissLoading()
             if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                val list = it.data.sortedBy { it.distance }
+                val list = it.data.toGogoPlaces().sortedBy { it.distance }
                 (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).submitList(list)
                 (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).notifyDataSetChanged()
             }

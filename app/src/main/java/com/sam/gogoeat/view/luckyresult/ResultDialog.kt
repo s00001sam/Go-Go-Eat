@@ -12,12 +12,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.sam.gogoeat.R
-import com.sam.gogoeat.data.place.PlaceData
+import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.databinding.DialogResultBinding
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class ResultDialog : AppCompatDialogFragment() {
@@ -30,20 +29,20 @@ class ResultDialog : AppCompatDialogFragment() {
         private const val NEW_PLACE_TAG = "NEW_PLACE_TAG"
 
         @JvmStatic
-        fun newInstance(placeData: PlaceData): ResultDialog {
+        fun newInstance(gogoPlace: GogoPlace): ResultDialog {
             val args = Bundle()
             val fragment = ResultDialog()
-            args.putParcelable(NEW_PLACE_TAG, placeData)
+            args.putParcelable(NEW_PLACE_TAG, gogoPlace)
             fragment.arguments = args
             return fragment
         }
 
         @JvmStatic
         fun show(
-                fragmentManager: FragmentManager,
-                placeData: PlaceData
+            fragmentManager: FragmentManager,
+            gogoPlace: GogoPlace
         ): ResultDialog {
-            val dialog = newInstance(placeData)
+            val dialog = newInstance(gogoPlace)
             dialog.show(fragmentManager, FRAGMENT_TAG)
             return dialog
         }
@@ -93,7 +92,7 @@ class ResultDialog : AppCompatDialogFragment() {
     }
 
     fun getBundleData() {
-        val newPlaceData = arguments?.getParcelable<PlaceData>(NEW_PLACE_TAG)
+        val newPlaceData = arguments?.getParcelable<GogoPlace>(NEW_PLACE_TAG)
         newPlaceData?.let { viewModel.setNewPlace(newPlaceData) }
     }
 

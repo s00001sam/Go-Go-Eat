@@ -2,6 +2,7 @@ package com.sam.gogoeat.data.place
 
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
+import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.getDinstance
 import kotlinx.parcelize.Parcelize
@@ -31,4 +32,26 @@ data class PlaceData(
 
     val distance: Int
         get() = UserManager.mySettingData.myLocation.getDinstance(storeLatlng)
+
+    companion object {
+        fun List<PlaceData>.toGogoPlaces(): List<GogoPlace> {
+            val list = mutableListOf<GogoPlace>()
+            this.forEach {
+                list.add(it.toGogoPlace())
+            }
+            return list
+        }
+
+        fun PlaceData.toGogoPlace(): GogoPlace {
+            return GogoPlace(
+                name = this.name,
+                place_id = this.place_id,
+                rating = this.rating,
+                user_ratings_total = this.user_ratings_total,
+                lat= this.geometry?.location?.lat,
+                lng= this.geometry?.location?.lng,
+                open_now= this.opening_hours?.open_now
+            )
+        }
+    }
 }

@@ -18,7 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.MyApplication
-import com.sam.gogoeat.data.place.PlaceData
+import com.sam.gogoeat.data.GogoPlace
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 object Util {
 
-    fun Activity.gotoMap(store: PlaceData) {
+    fun Activity.gotoMap(store: GogoPlace) {
         val gmmIntentUri: Uri =
             Uri.parse("https://www.google.com/maps/search/?api=1&query=qwerty&query_place_id=${store.place_id}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)

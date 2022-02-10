@@ -6,7 +6,7 @@
     <data>
         <variable
             name="store"
-            type="com.sam.gogoeat.data.place.PlaceData" />
+            type="com.sam.gogoeat.data.GogoPlace" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

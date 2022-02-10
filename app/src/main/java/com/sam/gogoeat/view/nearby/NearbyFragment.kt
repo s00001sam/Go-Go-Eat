@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentNearbyBinding
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
@@ -53,7 +54,7 @@ class NearbyFragment : BaseFragment() {
     private fun observeFlows() {
         mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
             if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                val list = it.data.sortedBy { it.distance }
+                val list = it.data.toGogoPlaces().sortedBy { it.distance }
                 (binding.rcyNearby.adapter as StoreAdapter).submitList(list)
                 (binding.rcyNearby.adapter as StoreAdapter).notifyDataSetChanged()
             }
