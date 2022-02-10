@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
@@ -25,10 +28,11 @@ import com.sam.gogoeat.view.lotteryhistory.LotteryHistoryFragment
 import com.sam.gogoeat.view.luckyresult.ResultDialog
 import com.sam.gogoeat.view.nearby.NearbyFragment
 import com.sam.gogoeat.view.support.BaseFragment
+import com.sam.gogoeat.view.support.PressBackHelper
 import com.sam.gogoeat.view.support.PriceLevel
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.reflect.Field
-
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -47,10 +51,30 @@ class HomeFragment : BaseFragment() {
         })
     }
 
+    @Inject
+    lateinit var pressBackHelper: PressBackHelper
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (bottomBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                collapseBottomSheet()
+            } else {
+                if (!findNavController().popBackStack()) {
+                    pressBackHelper.back(requireActivity())
+                }
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         binding.luckyWheelView.visibility = View.VISIBLE
         binding.luckyWheelView.showWithAnimation()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onCreateView(
@@ -89,7 +113,8 @@ class HomeFragment : BaseFragment() {
 
     private fun addTags() {
         UserManager.mySettingData.run {
-            keyWord?.let { setChip(it) }
+            binding.chipTags.removeAllViews()
+            if (!keyWord.isNullOrEmpty()) setChip(keyWord!!)
             setChip(getString(R.string.meter_radius, distance))
             if (priceLevel != PriceLevel.NONE.ordinal) setChip(UserManager.getMyPriceStr())
             if (isOpen) setChip(getString(R.string.is_open))
@@ -111,10 +136,6 @@ class HomeFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFlows() {
-        viewModel.isListIconClick.collectFlow(viewLifecycleOwner) {
-            if (it) showBottomSheet() else collapseBottomSheet()
-        }
-
         mainViewModel.newHistoryItem.collectFlow(viewLifecycleOwner) {
             it?.let {
                 ResultDialog.show(parentFragmentManager, it)
@@ -148,15 +169,17 @@ class HomeFragment : BaseFragment() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        viewModel.setIsListOpen(false)
                         tabLayout.visibility = View.GONE
                         viewPager.visibility = View.GONE
+                        binding.bsAllList.rvCollapseStore.isVisible = true
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
 
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
-                        viewModel.setIsListOpen(true)
+                        tabLayout.isVisible = true
+                        viewPager.isVisible = true
+                        binding.bsAllList.rvCollapseStore.isVisible = false
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
 

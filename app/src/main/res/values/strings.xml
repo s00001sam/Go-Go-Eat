@@ -22,4 +22,5 @@
     <string name="is_restaurant">餐廳</string>
     <string name="is_not_restaurant">所有店家</string>
     <string name="meter_radius">%1$d公尺內</string>
+    <string name="click_again_back">再按一次退出</string>
 </resources>

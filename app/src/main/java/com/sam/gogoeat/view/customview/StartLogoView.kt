@@ -48,7 +48,6 @@ class StartLogoView @JvmOverloads constructor(
         initWedgits()
         r = w / 2000f
         startGogoPath()
-        Logger.d("sam00 StartLogoView w=$w h=$h r=$r")
     }
 
     private fun initWedgits() {

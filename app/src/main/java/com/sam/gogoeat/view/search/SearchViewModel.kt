@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
         keyWordStr.value = ""
         priceLevelNum = PriceLevel.NONE.ordinal
         priceStr.value = UserManager.PRICE_STR_LIST[priceLevelNum]
-        onlyOpen.value = false
+        onlyOpen.value = true
         onlyRestaurant.value = true
     }
 
@@ -68,6 +68,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
             isOpen = onlyOpen.value
             onlyFindRestaurant = onlyRestaurant.value
         }
+        UserManager.saveSpSetting()
     }
 
 }

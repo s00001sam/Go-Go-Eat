@@ -25,14 +25,12 @@ class MainActivity : AppCompatActivity() {
         const val LOCATION_FINE = Manifest.permission.ACCESS_FINE_LOCATION
         const val LOCATION_COARSE = Manifest.permission.ACCESS_COARSE_LOCATION
     }
-
     private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private var dialog: AppCompatDialogFragment? = null
     private val locationClient: FusedLocationProviderClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
-
     private val requestPermission by lazy {
         registerForActivityResult(ActivityResultContracts.RequestPermission()){ granted ->
             if (granted) {
@@ -56,8 +54,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.locationResult.collectFlow(this) {
             Logger.d("my location=${it.data}")
             if (it.isSuccess() && it.data != null) {
+                UserManager.getSpSetting()
                 UserManager.mySettingData.myLocation = it.data
                 if (!viewModel.firstGetLocation) {
+                    Logger.d("sam00 get first location ok")
                     viewModel.firstGetLocation = true
                     viewModel.getNearbyFoods()
                 }

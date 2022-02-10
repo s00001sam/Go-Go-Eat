@@ -73,7 +73,6 @@ class SearchFragment : BaseFragment() {
             binding.etWord.clearFocus()
         }
         binding.sliderDistance.addOnChangeListener { slider, value, fromUser ->
-            Logger.d("sam00 set distance $value")
             viewModel.setDistance(value.toInt())
         }
         binding.btnReset.setOnClickListener {
