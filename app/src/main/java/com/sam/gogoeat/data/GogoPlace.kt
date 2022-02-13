@@ -1,13 +1,18 @@
 package com.sam.gogoeat.data
 
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.getDinstance
 import kotlinx.parcelize.Parcelize
 
+@Entity(tableName = "place_table")
 @Parcelize
 data class GogoPlace(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
     val name: String = "",
     val place_id: String? = null,
     val rating: Double = 0.0,

@@ -27,12 +27,6 @@ data class PlaceData(
     val user_ratings_total: Int = 0,
     val vicinity: String? = null
 ): Parcelable {
-    val storeLatlng: LatLng
-        get() = LatLng(geometry?.location?.lat ?: 25.0 , geometry?.location?.lng ?: 121.0)
-
-    val distance: Int
-        get() = UserManager.mySettingData.myLocation.getDinstance(storeLatlng)
-
     companion object {
         fun List<PlaceData>.toGogoPlaces(): List<GogoPlace> {
             val list = mutableListOf<GogoPlace>()

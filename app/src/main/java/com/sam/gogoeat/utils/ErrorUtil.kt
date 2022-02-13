@@ -1,4 +1,4 @@
-package com.sam.gogoeat.api.resp.base
+package com.sam.gogoeat.utils
 
 import org.json.JSONObject
 import retrofit2.HttpException

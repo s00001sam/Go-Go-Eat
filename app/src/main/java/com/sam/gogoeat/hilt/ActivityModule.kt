@@ -12,8 +12,5 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Module
 class ActivityModule {
     @Provides
-    fun provideRepository(@RemoteData remoteDataSource: DataSource, @LocalData localDataSource: DataSource) = BaseRepository(remoteDataSource, localDataSource)
-
-    @Provides
     fun provideBackHelper() = PressBackHelper()
 }

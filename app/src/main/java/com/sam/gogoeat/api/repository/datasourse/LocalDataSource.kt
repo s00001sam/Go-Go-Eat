@@ -7,16 +7,20 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.model.LatLng
 import com.sam.gogoeat.api.resp.MapResp
+import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.data.place.PlaceData
+import com.sam.gogoeat.room.RoomDB
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util
 import com.sam.gogoeat.view.MainActivity
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
-class LocalDataSource : DataSource {
+class LocalDataSource(private val roomDB: RoomDB) : DataSource {
 
     override suspend fun getNearbyPlaces(
         location: String?,
@@ -58,5 +62,15 @@ class LocalDataSource : DataSource {
 
         client.requestLocationUpdates(locationReq, callBack, Looper.getMainLooper())
         awaitClose { client.removeLocationUpdates(callBack) }
+    }
+
+    override suspend fun insertHistoryItem(gogoPlace: GogoPlace) = flow {
+        val complete = roomDB.placeDao.insertOne(gogoPlace)
+        emit(complete)
+    }
+
+    override suspend fun getAllHistoryItem() = flow {
+        val list = roomDB.placeDao.getAll()
+        emit(list)
     }
 }

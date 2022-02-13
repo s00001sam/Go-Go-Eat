@@ -1,16 +1,17 @@
 package com.sam.gogoeat.api.resp
 
-import com.sam.gogoeat.api.resp.base.IResp
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.RawValue
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class MapResp<T> (
         val status: String? = null,
         @Json(name = "results") val data: @RawValue T? = null,
         @Json(name = "next_page_token") val nextPageToken: String? = null,
         @Json(name = "error_message") val error: String? = null
-): IResp<T>, Serializable {
+): Parcelable {
 
     fun isSuccess() = status == "OK"
 }

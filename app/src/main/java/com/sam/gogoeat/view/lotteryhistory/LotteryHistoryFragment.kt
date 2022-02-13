@@ -49,12 +49,23 @@ class LotteryHistoryFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun collectFlow() {
-        mainViewModel.historyList.collectFlow(viewLifecycleOwner) {
-            (binding.rcyHistory.adapter as StoreAdapter).submitList(it)
-            (binding.rcyHistory.adapter as StoreAdapter).notifyDataSetChanged()
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.rcyHistory.smoothScrollToPosition(0)
-            }, 500)
+        mainViewModel.insertHistoryResult.collectFlow(viewLifecycleOwner) {
+            if (!it.isNothing()) {
+                viewModel.getHistories()
+                mainViewModel.completeInsertHistories()
+            }
+        }
+
+        viewModel.getHistoriesResult.collectFlow(viewLifecycleOwner) {
+            if (it.isSuccess()) {
+                it.data?.reversed()?.let {
+                    (binding.rcyHistory.adapter as StoreAdapter).submitList(it)
+                    (binding.rcyHistory.adapter as StoreAdapter).notifyDataSetChanged()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.rcyHistory.smoothScrollToPosition(0)
+                    }, 500)
+                }
+            }
         }
     }
 

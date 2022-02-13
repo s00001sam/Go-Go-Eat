@@ -171,7 +171,6 @@ class HomeFragment : BaseFragment() {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         tabLayout.visibility = View.GONE
                         viewPager.visibility = View.GONE
-                        binding.bsAllList.rvCollapseStore.isVisible = true
                     }
                     BottomSheetBehavior.STATE_HIDDEN -> {
 
@@ -179,7 +178,6 @@ class HomeFragment : BaseFragment() {
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         tabLayout.isVisible = true
                         viewPager.isVisible = true
-                        binding.bsAllList.rvCollapseStore.isVisible = false
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
 

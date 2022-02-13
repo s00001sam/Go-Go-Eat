@@ -8,21 +8,21 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private const val API_URL = "https://maps.googleapis.com/maps/api/place/"
-
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-private val client = OkHttpClient.Builder()
-    .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
-    .build()
-private val lifeRetrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
-    .baseUrl(API_URL)
-    .client(client)
-    .build()
-
-object MapApi {
-    val apiService by lazy { lifeRetrofit.create(PlaceApi::class.java) }
-}
+//private const val API_URL = "https://maps.googleapis.com/maps/api/place/"
+//
+//private val moshi = Moshi.Builder()
+//    .add(KotlinJsonAdapterFactory())
+//    .build()
+//private val client = OkHttpClient.Builder()
+//    .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+//    .build()
+//private val lifeRetrofit = Retrofit.Builder()
+//    .addConverterFactory(MoshiConverterFactory.create(moshi))
+//    .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//    .baseUrl(API_URL)
+//    .client(client)
+//    .build()
+//
+//object MapApi {
+//    val apiService by lazy { lifeRetrofit.create(PlaceApi::class.java) }
+//}
