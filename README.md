@@ -11,5 +11,6 @@
 * Customer BottomSheetBehavior
 * Canvas 客製化啟動動畫
 * CustomerView 輪盤
+* Room 儲存歷史紀錄
 * gitHub Action CICD (未完成)
 * Unit Test (未完成)
