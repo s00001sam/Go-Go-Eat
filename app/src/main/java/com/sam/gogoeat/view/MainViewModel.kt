@@ -58,9 +58,12 @@ class MainViewModel @Inject constructor(
     fun getRandomFoodIntoHistory() {
         nearbyFoodResult.value.data?.let {
             if (it.isEmpty()) return
-            val newItem = it[Util.getRandomNum(it.size)].toGogoPlace()
-            _newHistoryItem.value = newItem
-            insertHistoryItem(newItem)
+            val randomIndex = Util.getRandomNum(it.size)
+            randomIndex?.let { index ->
+                val newItem = it[index].toGogoPlace()
+                _newHistoryItem.value = newItem
+                insertHistoryItem(newItem)
+            }
         }
     }
 

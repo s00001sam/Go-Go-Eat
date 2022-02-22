@@ -39,7 +39,8 @@ object Util {
         return ActivityCompat.checkSelfPermission(MyApplication.appContext, permission) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun getRandomNum(totalNum: Int) : Int {
+    fun getRandomNum(totalNum: Int) : Int? {
+        if (totalNum <= 0) return null
         return (0 until totalNum).random()
     }
 
@@ -52,48 +53,6 @@ object Util {
         val d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1))*r
 
         return (d*1000).toInt()
-    }
-
-    //搖晃動畫
-    fun View.startShakeAnim(scaleSmall: Float, scaleLarge: Float, shakeDegrees: Float, duration: Long, endListener: () -> Unit) {
-        //先變小再變大
-        val scaleXValuesHolder: PropertyValuesHolder = PropertyValuesHolder.ofKeyframe(View.SCALE_X,
-                Keyframe.ofFloat(0f, 1.0f),
-                Keyframe.ofFloat(0.25f, scaleSmall),
-                Keyframe.ofFloat(0.5f, scaleLarge),
-                Keyframe.ofFloat(0.75f, scaleLarge),
-                Keyframe.ofFloat(1.0f, 1.0f)
-        )
-        val scaleYValuesHolder: PropertyValuesHolder = PropertyValuesHolder.ofKeyframe(View.SCALE_Y,
-                Keyframe.ofFloat(0f, 1.0f),
-                Keyframe.ofFloat(0.25f, scaleSmall),
-                Keyframe.ofFloat(0.5f, scaleLarge),
-                Keyframe.ofFloat(0.75f, scaleLarge),
-                Keyframe.ofFloat(1.0f, 1.0f)
-        )
-
-        //先往左再往右
-        val rotateValuesHolder: PropertyValuesHolder = PropertyValuesHolder.ofKeyframe(View.ROTATION,
-                Keyframe.ofFloat(0f, 0f),
-                Keyframe.ofFloat(0.1f, -shakeDegrees),
-                Keyframe.ofFloat(0.2f, shakeDegrees),
-                Keyframe.ofFloat(0.3f, -shakeDegrees),
-                Keyframe.ofFloat(0.4f, shakeDegrees),
-                Keyframe.ofFloat(0.5f, -shakeDegrees),
-                Keyframe.ofFloat(0.6f, shakeDegrees),
-                Keyframe.ofFloat(0.7f, -shakeDegrees),
-                Keyframe.ofFloat(0.8f, shakeDegrees),
-                Keyframe.ofFloat(0.9f, -shakeDegrees),
-                Keyframe.ofFloat(1.0f, 0f)
-        )
-        val objectAnimator: ObjectAnimator = ObjectAnimator.ofPropertyValuesHolder(this, scaleXValuesHolder, scaleYValuesHolder, rotateValuesHolder)
-        objectAnimator.duration = duration
-        objectAnimator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                endListener.invoke()
-            }
-        })
-        objectAnimator.start()
     }
 
     fun dip2px(context: Context, dpValue: Float): Int {
@@ -131,10 +90,6 @@ object Util {
             }
         }
     }
-
-    fun Int.px2dp() = (this / getSystem().displayMetrics.density).toInt()
-
-    fun Int.dp2px() = (this * getSystem().displayMetrics.density).toInt()
 
     fun View.showKeyboard() {
         (MyApplication.appContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)

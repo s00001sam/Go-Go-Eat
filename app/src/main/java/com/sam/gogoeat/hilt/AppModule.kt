@@ -55,7 +55,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun providePlaceDao(roomDB: RoomDB) = roomDB.placeDao
+    fun providePlaceDao(roomDB: RoomDB) = roomDB.placeDao()
 
     @Singleton
     @Provides

@@ -65,12 +65,12 @@ class LocalDataSource(private val roomDB: RoomDB) : DataSource {
     }
 
     override suspend fun insertHistoryItem(gogoPlace: GogoPlace) = flow {
-        val complete = roomDB.placeDao.insertOne(gogoPlace)
+        val complete = roomDB.placeDao().insertOne(gogoPlace)
         emit(complete)
     }
 
     override suspend fun getAllHistoryItem() = flow {
-        val list = roomDB.placeDao.getAll()
+        val list = roomDB.placeDao().getAll()
         emit(list)
     }
 }

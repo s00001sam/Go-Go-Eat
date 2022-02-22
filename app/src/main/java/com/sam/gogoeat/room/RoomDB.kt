@@ -12,7 +12,7 @@ import com.sam.gogoeat.data.GogoPlace
     exportSchema = false
 )
 abstract class RoomDB: RoomDatabase() {
-    abstract val placeDao: PlaceDao
+    abstract fun placeDao(): PlaceDao
 
     companion object {
         @Volatile
