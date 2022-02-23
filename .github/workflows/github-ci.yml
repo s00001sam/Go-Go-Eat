@@ -59,3 +59,24 @@ jobs:
         with:
           api-level: 29
           script: ./gradlew connectedAndroidTes
+          
+  build:
+    needs: [ unit_tests, android_tests ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+          
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      
+      - name: Access MAP_API_KEY
+        run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+        
+      - name: Generate Release APK
+        run: ./gradlew assembleRelease
