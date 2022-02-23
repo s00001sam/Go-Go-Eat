@@ -1,6 +1,7 @@
 package com.sam.gogoeat.view.search
 
 import androidx.lifecycle.ViewModel
+import com.sam.gogoeat.data.SettingData
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.view.support.PriceLevel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,8 +29,8 @@ class SearchViewModel @Inject constructor() : ViewModel() {
         setCurrentValues()
     }
 
-    private fun setCurrentValues() {
-        UserManager.mySettingData.run {
+    fun setCurrentValues(currentSetting: SettingData = UserManager.mySettingData) {
+        currentSetting.run {
             keyWordStr.value = keyWord ?: ""
             _distanceValue.value = distance
             priceStr.value = UserManager.PRICE_STR_LIST[priceLevel]
@@ -54,6 +55,7 @@ class SearchViewModel @Inject constructor() : ViewModel() {
 
     fun resetData() {
         keyWordStr.value = ""
+        _distanceValue.value = 1000
         priceLevelNum = PriceLevel.NONE.ordinal
         priceStr.value = UserManager.PRICE_STR_LIST[priceLevelNum]
         onlyOpen.value = true

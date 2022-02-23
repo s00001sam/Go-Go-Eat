@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class FakeRepository: Repository {
 
-    private val historyPlaces = mutableListOf<GogoPlace>()
+    val historyPlaces = mutableListOf<GogoPlace>()
 
     private var shouldReturnNetError : Boolean = false
 

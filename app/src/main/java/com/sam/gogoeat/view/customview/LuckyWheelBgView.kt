@@ -34,7 +34,6 @@ class LuckyWheelBgView @JvmOverloads constructor(
     }
 
     private fun initWidget() {
-        // background
         paint = Paint()
         paint?.baseApply()
     }
@@ -57,7 +56,6 @@ class LuckyWheelBgView @JvmOverloads constructor(
     }
 
     private fun setOutSidePath() {
-//        outSidePath.addCircle(w/2f, w/2f, w/2f - 20f, Path.Direction.CW)
         outSidePath.addArc(RectF(20f, 20f, w - 20f, w - 20f ), -90f, 360f)
         mPathMeasure.setPath(outSidePath, false)
         mLength = mPathMeasure.length
