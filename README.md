@@ -12,5 +12,6 @@
 * Canvas 客製化啟動動畫
 * CustomerView 輪盤
 * Room 儲存歷史紀錄
-* gitHub Action CICD (未完成)
-* Unit Test (未完成)
+* test with hilt and flow
+* gitHub Action CI
+* gitHub Action CD (等上架之後完成)
