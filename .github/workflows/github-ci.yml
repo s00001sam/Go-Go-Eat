@@ -27,6 +27,9 @@ jobs:
           MAP_KEY: ${{ secrets.MAP_API_KEY }}
         run: echo MAP_API_KEY=\"$MAP_KEY\" > ./local.propertie
         
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+        
       - name: Unit tests
         run: ./gradlew test
   ## 4
@@ -39,6 +42,9 @@ jobs:
         env:
           MAP_KEY: ${{ secrets.MAP_API_KEY }}
         run: echo MAP_API_KEY=\"$MAP_KEY\" > ./local.propertie
+        
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
