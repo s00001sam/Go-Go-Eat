@@ -35,6 +35,11 @@ jobs:
         env:
           MAP_KEY: ${{ secrets.MAP_API_KEY }}
         run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+
+      - name: Access Google Services Json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          run: echo $GOOGLE_SERVICES_JSON > ./app/google-services.json
         
       - name: Unit tests
         run: ./gradlew test
@@ -54,6 +59,11 @@ jobs:
       
       - name: Access MAP_API_KEY
         run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+
+      - name: Access Google Services Json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $GOOGLE_SERVICES_JSON > ./app/google-services.json
 
       - name: Instrumentation Tests
         uses: reactivecircus/android-emulator-runner@v2
@@ -78,6 +88,11 @@ jobs:
       
       - name: Access MAP_API_KEY
         run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+
+      - name: Access Google Services Json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $GOOGLE_SERVICES_JSON > ./app/google-services.json
         
       - name: Generate Release APK
         run: ./gradlew assembleRelease
