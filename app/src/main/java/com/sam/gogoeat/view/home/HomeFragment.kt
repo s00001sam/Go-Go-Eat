@@ -17,9 +17,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.sam.gogoeat.R
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentHomeBinding
+import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
@@ -47,12 +50,16 @@ class HomeFragment : BaseFragment() {
 
     private val collapseStoreAdapter : CollapseStoreAdapter by lazy {
         CollapseStoreAdapter(CollapseStoreAdapter.OnclickListener {
+            faTracker.logEvent(FAEvent.HOME_BOTTOM_GO_MAP) {}
             requireActivity().gotoMap(it)
         })
     }
 
     @Inject
     lateinit var pressBackHelper: PressBackHelper
+
+    @Inject
+    lateinit var faTracker: FirebaseAnalytics
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -101,6 +108,7 @@ class HomeFragment : BaseFragment() {
         setBottomSheet()
 
         binding.luckyWheelView.setOnClickListener {
+            faTracker.logEvent(FAEvent.HOME_CLICK_WHEEL) {}
             binding.luckyWheelView.setList(mainViewModel.getNearByGogoPlaces())
             binding.luckyWheelView.setRandomIndex(mainViewModel.getRandomIndex())
             binding.luckyWheelView.startScroll()
@@ -109,9 +117,11 @@ class HomeFragment : BaseFragment() {
             mainViewModel.getRandomFoodIntoHistory()
         }
         binding.bsAllList.tvSeeMore.setOnClickListener {
+            faTracker.logEvent(FAEvent.HOME_SEE_MORE) {}
             showBottomSheet()
         }
         binding.ivSearch.setOnClickListener {
+            faTracker.logEvent(FAEvent.HOME_CLICK_SEARCH) {}
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
     }
@@ -189,6 +199,9 @@ class HomeFragment : BaseFragment() {
                     }
                     BottomSheetBehavior.STATE_SETTLING -> {
 
+                    }
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {
+                        TODO()
                     }
                 }
             }

@@ -11,18 +11,25 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.sam.gogoeat.R
 import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.databinding.DialogResultBinding
+import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ResultDialog : AppCompatDialogFragment() {
 
     private lateinit var binding: DialogResultBinding
     private val viewModel: ResultViewModel by viewModels()
+
+    @Inject
+    lateinit var faTracker: FirebaseAnalytics
 
     companion object {
         private const val FRAGMENT_TAG = "ResultDialog"
@@ -80,10 +87,12 @@ class ResultDialog : AppCompatDialogFragment() {
 
     private fun initView() {
         binding.tvCancel.setOnClickListener {
+            faTracker.logEvent(FAEvent.RESULT_DIALOG_CANCEL) {}
             dismiss()
         }
 
         binding.tvGoMap.setOnClickListener {
+            faTracker.logEvent(FAEvent.RESULT_DIALOG_GO_MAP) {}
             viewModel.newPlace.value.let { place ->
                 activity?.gotoMap(place)
             }

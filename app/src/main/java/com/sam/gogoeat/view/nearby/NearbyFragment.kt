@@ -7,14 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentNearbyBinding
+import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.home.StoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NearbyFragment : BaseFragment() {
@@ -23,8 +27,12 @@ class NearbyFragment : BaseFragment() {
     private lateinit var mainViewModel : MainViewModel
     private lateinit var binding: FragmentNearbyBinding
 
+    @Inject
+    lateinit var faTracker: FirebaseAnalytics
+
     private val storeAdapter : StoreAdapter by lazy {
         StoreAdapter(StoreAdapter.OnclickListener {
+            faTracker.logEvent(FAEvent.NEARBY_GO_MAP) {}
             requireActivity().gotoMap(it)
         })
     }

@@ -8,8 +8,11 @@ import androidx.core.view.doOnLayout
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.sam.gogoeat.databinding.FragmentSearchBinding
-import com.sam.gogoeat.utils.Logger
+import com.sam.gogoeat.utils.FAEvent
+import com.sam.gogoeat.utils.FAParam
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.hideKeyboard
@@ -28,6 +31,9 @@ class SearchFragment : BaseFragment() {
 
     @Inject
     lateinit var priceSpinner: PriceSpinner
+
+    @Inject
+    lateinit var faTracker: FirebaseAnalytics
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +72,7 @@ class SearchFragment : BaseFragment() {
             }
         }
         binding.ivBack.setOnClickListener {
+            faTracker.logEvent(FAEvent.SEARCH_BACK) {}
             findNavController().navigateUp()
         }
         binding.root.setOnClickListener {
@@ -76,10 +83,12 @@ class SearchFragment : BaseFragment() {
             viewModel.setDistance(value.toInt())
         }
         binding.btnReset.setOnClickListener {
+            faTracker.logEvent(FAEvent.SEARCH_RESET) {}
             viewModel.resetData()
             binding.sliderDistance.value = 1000f
         }
         binding.btnSearch.setOnClickListener {
+            faTracker.logEvent(FAEvent.SEARCH_GO) { param(FAParam.SEARCH_KEY, viewModel.keyWordStr.value) }
             viewModel.setData2UserManager()
             mainViewModel.getNearbyFoods()
             findNavController().navigateUp()

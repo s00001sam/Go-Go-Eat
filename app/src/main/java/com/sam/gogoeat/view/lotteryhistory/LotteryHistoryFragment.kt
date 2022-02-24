@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.sam.gogoeat.databinding.FragmentLotteryHistoryBinding
+import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.support.BaseFragment
 import com.sam.gogoeat.view.MainViewModel
 import com.sam.gogoeat.view.home.StoreAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LotteryHistoryFragment : BaseFragment() {
@@ -24,8 +27,12 @@ class LotteryHistoryFragment : BaseFragment() {
     private lateinit var binding: FragmentLotteryHistoryBinding
     private lateinit var mainViewModel: MainViewModel
 
+    @Inject
+    lateinit var faTracker: FirebaseAnalytics
+
     private val storeAdapter : StoreAdapter by lazy {
         StoreAdapter(StoreAdapter.OnclickListener {
+            faTracker.logEvent(FAEvent.HISTORY_GO_MAP, null)
             requireActivity().gotoMap(it)
         })
     }

@@ -153,8 +153,9 @@ class LuckyWheelView @JvmOverloads constructor(
     private fun setTextSwitch(count: Int, isFinal: Boolean = false) {
         if (storeList.isEmpty()) return
         binding.tvDefault.visibility = View.GONE
+        val nowIndex = count % storeList.size
         binding.tsLuckyWheel.setText(
-            if (!isFinal) storeList[count].name else storeList[randomIndex].name
+            if (!isFinal) storeList[nowIndex].name else storeList[randomIndex].name
         )
     }
 }

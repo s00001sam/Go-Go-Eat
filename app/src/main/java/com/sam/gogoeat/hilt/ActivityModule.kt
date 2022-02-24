@@ -1,7 +1,7 @@
 package com.sam.gogoeat.hilt
 
-import com.sam.gogoeat.api.repository.BaseRepository
-import com.sam.gogoeat.api.repository.datasourse.DataSource
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import com.sam.gogoeat.view.support.PressBackHelper
 import dagger.Module
 import dagger.Provides
@@ -13,4 +13,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class ActivityModule {
     @Provides
     fun provideBackHelper() = PressBackHelper()
+
+    @Provides
+    fun provideGA() = Firebase.analytics
 }
