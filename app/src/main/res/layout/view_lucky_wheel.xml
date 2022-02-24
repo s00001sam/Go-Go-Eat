@@ -8,6 +8,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_wheel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintDimensionRatio="1:1">
@@ -15,12 +16,35 @@
         <com.sam.gogoeat.view.customview.LuckyWheelBodyView
             android:id="@+id/wheel_body"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <com.sam.gogoeat.view.customview.LuckyWheelBgView
             android:id="@+id/wheel_bg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_default"
+            android:layout_width="135dp"
+            android:layout_height="120dp"
+            android:text="Go"
+            android:gravity="center"
+            android:textSize="32sp"
+            android:textColor="@color/black_4F4F4F"
+            app:layout_constraintEnd_toEndOf="@+id/wheel_bg"
+            app:layout_constraintStart_toStartOf="@+id/wheel_bg"
+            app:layout_constraintTop_toTopOf="@+id/wheel_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/wheel_bg"/>
+
+        <TextSwitcher
+            android:id="@+id/ts_lucky_wheel"
+            android:layout_width="135dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="72dp"
+            app:layout_constraintEnd_toEndOf="@+id/wheel_bg"
+            app:layout_constraintStart_toStartOf="@+id/wheel_bg"
+            app:layout_constraintTop_toTopOf="@+id/wheel_bg"
+            app:layout_constraintBottom_toBottomOf="@+id/wheel_bg"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

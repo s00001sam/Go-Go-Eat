@@ -11,6 +11,7 @@ import com.sam.gogoeat.api.usecase.InsertHistoryItem
 import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlace
+import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.data.place.PlaceReq
 import com.sam.gogoeat.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,6 +44,8 @@ class MainViewModel @Inject constructor(
 
     var firstGetLocation = false
 
+    private var randomIndex: Int = 0
+
     fun newHistoryShowFinish() {
         _newHistoryItem.value = null
     }
@@ -55,15 +58,21 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getNearByGogoPlaces() = nearbyFoodResult.value.data?.toGogoPlaces()
+
+    fun getRandomIndex() : Int {
+        if (getNearByGogoPlaces().isNullOrEmpty()) return 0
+        val index = Util.getRandomNum(getNearByGogoPlaces()!!.size)
+        this.randomIndex = index ?: 0
+        return index ?: 0
+    }
+
     fun getRandomFoodIntoHistory() {
         nearbyFoodResult.value.data?.let {
             if (it.isEmpty()) return
-            val randomIndex = Util.getRandomNum(it.size)
-            randomIndex?.let { index ->
-                val newItem = it[index].toGogoPlace()
-                _newHistoryItem.value = newItem
-                insertHistoryItem(newItem)
-            }
+            val newItem = it[randomIndex].toGogoPlace()
+            _newHistoryItem.value = newItem
+            insertHistoryItem(newItem)
         }
     }
 

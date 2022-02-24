@@ -51,7 +51,7 @@ class LuckyWheelBgView @JvmOverloads constructor(
         paint?.let {
             it.style = Paint.Style.FILL
             it.color = ContextCompat.getColor(context, R.color.yellow_bg)
-            canvas?.drawCircle(w/2f, w/2f, w/5f, it)
+            canvas?.drawCircle(w/2f, w/2f, w/4f, it)
         }
     }
 

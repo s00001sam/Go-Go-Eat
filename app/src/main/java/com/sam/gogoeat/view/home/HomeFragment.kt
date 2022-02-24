@@ -100,6 +100,11 @@ class HomeFragment : BaseFragment() {
         setTabAndViewPager()
         setBottomSheet()
 
+        binding.luckyWheelView.setOnClickListener {
+            binding.luckyWheelView.setList(mainViewModel.getNearByGogoPlaces())
+            binding.luckyWheelView.setRandomIndex(mainViewModel.getRandomIndex())
+            binding.luckyWheelView.startScroll()
+        }
         binding.luckyWheelView.setScrollFinishListener {
             mainViewModel.getRandomFoodIntoHistory()
         }
@@ -214,7 +219,7 @@ class HomeFragment : BaseFragment() {
             adapter = viewPagerAdapter
             (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         }
-        downViewpager2Sensitivity()
+        improveViewpagerSensitivity()
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> "Nearby"
@@ -223,7 +228,7 @@ class HomeFragment : BaseFragment() {
         }.attach()
     }
 
-    fun downViewpager2Sensitivity() {
+    private fun improveViewpagerSensitivity() {
         try {
             val recyclerViewField: Field = ViewPager2::class.java.getDeclaredField("mRecyclerView")
             recyclerViewField.setAccessible(true)
