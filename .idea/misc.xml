@@ -16,6 +16,7 @@
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/drawable/frame_search_default.xml" value="0.106" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/drawable/frame_search_focus.xml" value="0.106" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/drawable/frame_search_selector.xml" value="0.106" />
+        <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1365" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/drawable/search_custom_input.xml" value="0.106" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/layout/activity_main.xml" value="0.13323201621073963" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/layout/dialog_loading.xml" value="0.27395833333333336" />
@@ -28,6 +29,7 @@
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/layout/layout_all_list.xml" value="0.1" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/layout/layout_price_popup.xml" value="0.24320652173913043" />
         <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/layout/view_lucky_wheel.xml" value="0.13323201621073963" />
+        <entry key="..\:/Users/s0000/project/gogoEat/app/src/main/res/mipmap-anydpi-v26/ic_gogoeat_launcher.xml" value="0.1365" />
       </map>
     </option>
   </component>
