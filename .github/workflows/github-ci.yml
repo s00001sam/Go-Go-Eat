@@ -17,7 +17,7 @@ on:
 
 jobs:
 
-  ## 3
+  ## 1
   unit_tests:
     runs-on: [ubuntu-latest]
     steps:
@@ -31,10 +31,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Access MAP_API_KEY
+      - name: Access LOCAL_PROPERTIES
         env:
-          MAP_KEY: ${{ secrets.MAP_API_KEY }}
-        run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: echo "$LOCAL_PROPERTIES" > local.properties
+        
+      - name: Access Android signing key JKS
+        run: |
+          echo "${{ secrets.RELEASE_KEY_STORE_64 }}" > app/sam_google_play_keys.jks.base64
+          base64 -d app/sam_google_play_keys.jks.base64 > app/sam_google_play_keys.jks
 
       - name: Access Google Services Json
         env:
@@ -43,7 +48,7 @@ jobs:
         
       - name: Unit tests
         run: ./gradlew test
-  ## 4
+  ## 2
   android_tests:
     runs-on: [ macos-latest ]
     steps:
@@ -57,8 +62,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       
-      - name: Access MAP_API_KEY
-        run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+      - name: Access LOCAL_PROPERTIES
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: echo "$LOCAL_PROPERTIES" > local.properties
+        
+      - name: Access Android signing key JKS
+        run: |
+          echo "${{ secrets.RELEASE_KEY_STORE_64 }}" > app/sam_google_play_keys.jks.base64
+          base64 -d app/sam_google_play_keys.jks.base64 > app/sam_google_play_keys.jks
 
       - name: Access Google Services Json
         env:
@@ -70,7 +82,7 @@ jobs:
         with:
           api-level: 29
           script: ./gradlew connectedAndroidTes
-          
+  ## 3
   build:
     needs: [ unit_tests, android_tests ]
     runs-on: ubuntu-latest
@@ -86,8 +98,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       
-      - name: Access MAP_API_KEY
-        run: echo "MAP_API_KEY=\""${{ secrets.MAP_API_KEY }}"\"" >> local.properties
+      - name: Access LOCAL_PROPERTIES
+        env:
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: echo "$LOCAL_PROPERTIES" > local.properties
+        
+      - name: Access Android signing key JKS
+        run: |
+          echo "${{ secrets.RELEASE_KEY_STORE_64 }}" > app/sam_google_play_keys.jks.base64
+          base64 -d app/sam_google_play_keys.jks.base64 > app/sam_google_play_keys.jks
 
       - name: Access Google Services Json
         env:
