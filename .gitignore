@@ -15,3 +15,6 @@
 local.properties
 /app/src/main/res/values/map_key.xml
 /app/google-services.json
+sam_google_play_keys.jks
+*.jks
+/app/sam_google_play_keys.jks

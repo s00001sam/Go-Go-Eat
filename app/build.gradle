@@ -10,6 +10,17 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            def localProperties = new Properties()
+            localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+            storeFile file(localProperties['SIGN_STORE_FILE'])
+            storePassword localProperties['SIGN_STORE_PASSWORD']
+            keyAlias localProperties['SIGN_ALIAS']
+            keyPassword localProperties['SIGN_KEY_PASSWORD']
+        }
+    }
     compileSdk 31
 
     defaultConfig {
@@ -33,6 +44,7 @@ android {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "false")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             buildConfigField("Boolean", "LOGGER_VISIABLE", "true")

@@ -1,3 +1,5 @@
 /build
 /src/main/res/values/map_key.xml
 google-services.json
+sam_google_play_keys.jks
+*.jks
