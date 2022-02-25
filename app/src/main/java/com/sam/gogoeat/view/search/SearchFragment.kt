@@ -1,5 +1,6 @@
 package com.sam.gogoeat.view.search
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
+import com.sam.gogoeat.BuildConfig
 import com.sam.gogoeat.databinding.FragmentSearchBinding
 import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.FAParam
@@ -52,7 +54,11 @@ class SearchFragment : BaseFragment() {
         collectFlow()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun initView() {
+        val debugStr = if (BuildConfig.DEBUG) " - debug" else ""
+        binding.tvVersion.text = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})$debugStr"
+
         binding.sliderDistance.value = UserManager.mySettingData.distance.toFloat()
         binding.etWord.setOnFocusChangeListener { v, hasFocus ->
             viewModel.keyFocus.value = hasFocus
