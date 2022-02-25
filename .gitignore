@@ -18,3 +18,4 @@ local.properties
 sam_google_play_keys.jks
 *.jks
 /app/sam_google_play_keys.jks
+/app/release/app-release.apk

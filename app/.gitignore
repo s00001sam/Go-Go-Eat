@@ -3,3 +3,4 @@
 google-services.json
 sam_google_play_keys.jks
 *.jks
+/release/app-release.apk
