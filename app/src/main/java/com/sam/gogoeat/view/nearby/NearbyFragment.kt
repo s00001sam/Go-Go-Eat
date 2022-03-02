@@ -60,12 +60,9 @@ class NearbyFragment : BaseFragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeFlows() {
-        mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
-            if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                val list = it.data.toGogoPlaces().sortedBy { it.distance }
-                (binding.rcyNearby.adapter as StoreAdapter).submitList(list)
-                (binding.rcyNearby.adapter as StoreAdapter).notifyDataSetChanged()
-            }
+        mainViewModel.nearbyFoods.collectFlow(viewLifecycleOwner) {
+            (binding.rcyNearby.adapter as StoreAdapter).submitList(it)
+            (binding.rcyNearby.adapter as StoreAdapter).notifyDataSetChanged()
         }
     }
 

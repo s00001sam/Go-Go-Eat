@@ -2,6 +2,8 @@ package com.sam.gogoeat.view.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,6 +23,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.sam.gogoeat.R
+import com.sam.gogoeat.api.resp.base.State
+import com.sam.gogoeat.data.GogoPlace
+import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.utils.FAEvent
@@ -44,6 +50,7 @@ class HomeFragment : BaseFragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var bottomBehavior: BottomSheetBehavior<View>
+    private lateinit var concatAdapter: ConcatAdapter
 
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
@@ -54,6 +61,8 @@ class HomeFragment : BaseFragment() {
             requireActivity().gotoMap(it)
         })
     }
+
+    private val collapseFooterAdapter: CollapseFooterAdapter by lazy { CollapseFooterAdapter() }
 
     @Inject
     lateinit var pressBackHelper: PressBackHelper
@@ -146,7 +155,8 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun initRcyCollapse() {
-        binding.bsAllList.rvCollapseStore.adapter = collapseStoreAdapter
+        concatAdapter = ConcatAdapter(collapseStoreAdapter, collapseFooterAdapter)
+        binding.bsAllList.rvCollapseStore.adapter = concatAdapter
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -159,12 +169,22 @@ class HomeFragment : BaseFragment() {
         }
 
         mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
-            if (it.isLoading()) showLoading() else dismissLoading()
-            if (it.isSuccess() && !it.data.isNullOrEmpty()) {
-                val list = it.data.toGogoPlaces().sortedBy { it.distance }
-                (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).submitList(list)
-                (binding.bsAllList.rvCollapseStore.adapter as CollapseStoreAdapter).notifyDataSetChanged()
+            if (it.isLoading()) {
+                showLoading()
+            } else {
+                dismissLoading()
             }
+            if (it.isNothing() || it.data.isNullOrEmpty()) {
+                mainViewModel.setNearbyFoods(listOf())
+            }
+            if (it.isSuccess() && !it.data.isNullOrEmpty()) {
+                val list = it.data.toGogoPlaces().sortedBy { place -> place.distance }
+                mainViewModel.setNearbyFoods(list)
+            }
+        }
+
+        mainViewModel.nearbyFoods.collectFlow(viewLifecycleOwner) {
+            setRcyBottom(it)
         }
     }
 
@@ -208,11 +228,26 @@ class HomeFragment : BaseFragment() {
         })
     }
 
-    fun showBottomSheet() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setRcyBottom(list: List<GogoPlace>) {
+        if (!list.isNullOrEmpty()) {
+            collapseStoreAdapter.submitList(list)
+            collapseFooterAdapter.submitList(listOf())
+        } else {
+            collapseStoreAdapter.submitList(listOf())
+            collapseFooterAdapter.submitList(listOf(getString(R.string.rcy_no_data)))
+        }
+        concatAdapter.notifyDataSetChanged()
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.bsAllList.rvCollapseStore.scrollToPosition(0)
+        }, 200)
+    }
+
+    private fun showBottomSheet() {
         bottomBehavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    fun collapseBottomSheet() {
+    private fun collapseBottomSheet() {
         bottomBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 

@@ -23,4 +23,5 @@
     <string name="is_not_restaurant">所有店家</string>
     <string name="meter_radius">%1$d公尺內</string>
     <string name="click_again_back">再按一次退出</string>
+    <string name="rcy_no_data">暫無資料</string>
 </resources>

@@ -32,6 +32,10 @@ class MainViewModel @Inject constructor(
     private val _nearbyFoodResult = MutableStateFlow<State<List<PlaceData>>>(State.nothing())
     val nearbyFoodResult : StateFlow<State<List<PlaceData>>> = _nearbyFoodResult
 
+    //real used list
+    private val _nearbyFoods = MutableStateFlow<List<GogoPlace>>(listOf())
+    val nearbyFoods : StateFlow<List<GogoPlace>> = _nearbyFoods
+
     //the newest lottery item
     private val _newHistoryItem = MutableStateFlow<GogoPlace?>(null)
     val newHistoryItem : StateFlow<GogoPlace?> = _newHistoryItem
@@ -58,19 +62,23 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getNearByGogoPlaces() = nearbyFoodResult.value.data?.toGogoPlaces()
+    fun setNearbyFoods(list: List<GogoPlace>) {
+        _nearbyFoods.value = list
+    }
+
+    fun getNearByGogoPlaces() = nearbyFoods.value
 
     fun getRandomIndex() : Int {
         if (getNearByGogoPlaces().isNullOrEmpty()) return 0
-        val index = Util.getRandomNum(getNearByGogoPlaces()!!.size)
+        val index = Util.getRandomNum(getNearByGogoPlaces().size)
         this.randomIndex = index ?: 0
         return index ?: 0
     }
 
     fun getRandomFoodIntoHistory() {
-        nearbyFoodResult.value.data?.let {
+        nearbyFoods.value.let {
             if (it.isEmpty()) return
-            val newItem = it[randomIndex].toGogoPlace()
+            val newItem = it[randomIndex]
             _newHistoryItem.value = newItem
             insertHistoryItem(newItem)
         }
