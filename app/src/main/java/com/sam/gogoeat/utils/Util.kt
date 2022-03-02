@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources.getSystem
 import android.graphics.Paint
 import android.net.Uri
 import android.view.View

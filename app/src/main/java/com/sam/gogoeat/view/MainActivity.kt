@@ -9,13 +9,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.location.*
+import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.ActivityMainBinding
+import com.sam.gogoeat.utils.FileUtil
+import com.sam.gogoeat.utils.FileUtil.gogoPlacesToJson
+import com.sam.gogoeat.utils.FileUtil.jsonToGogoPlaces
+import com.sam.gogoeat.utils.FileUtil.readFromFile
+import com.sam.gogoeat.utils.FileUtil.writeToFile
 import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import com.sam.gogoeat.utils.Util.collectFlow
+import com.sam.gogoeat.utils.Util.getDinstance
 import com.sam.gogoeat.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,19 +54,29 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        initCacheList()
         checkLocationPermission()
         initCollect()
+    }
+
+    private fun initCacheList() {
+        UserManager.getSpSetting()
+        val savePlacesStr = readFromFile(MyApplication.appContext, "gogoplaces.txt")
+        if (savePlacesStr.isNotEmpty()) {
+            val savePlaces = jsonToGogoPlaces(savePlacesStr) ?: listOf()
+            viewModel.setNearbyFoods(savePlaces)
+        }
     }
 
     private fun initCollect() {
         viewModel.locationResult.collectFlow(this) {
             Logger.d("my location=${it.data}")
-            if (it.isSuccess() && it.data != null) {
-                UserManager.getSpSetting()
+            if (it.isSuccess() && it.data != null &&
+                it.data.getDinstance(UserManager.mySettingData.myLocation) > 500
+            ) {
                 UserManager.mySettingData.myLocation = it.data
-                if (!viewModel.firstGetLocation) {
-                    Logger.d("sam00 get first location ok")
-                    viewModel.firstGetLocation = true
+                UserManager.saveSpSetting()
+                if (viewModel.getNearByGogoPlaces().isEmpty()) {
                     viewModel.getNearbyFoods()
                 }
             }

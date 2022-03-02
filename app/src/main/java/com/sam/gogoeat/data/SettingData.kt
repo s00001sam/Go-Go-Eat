@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class SettingData(
-    var myLocation : LatLng = LatLng(24.0, 121.0),
+    var myLocation : LatLng = LatLng(1.0, 1.0),
     var keyWord: String? = null,
     var distance: Int = 1000,
     var priceLevel: Int = PriceLevel.NONE.ordinal,

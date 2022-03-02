@@ -22,6 +22,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
+import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.R
 import com.sam.gogoeat.api.resp.base.State
 import com.sam.gogoeat.data.GogoPlace
@@ -29,6 +30,8 @@ import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.utils.FAEvent
+import com.sam.gogoeat.utils.FileUtil
+import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
@@ -174,12 +177,16 @@ class HomeFragment : BaseFragment() {
             } else {
                 dismissLoading()
             }
-            if (it.isNothing() || it.data.isNullOrEmpty()) {
+            if ((it.isNothing() || it.data.isNullOrEmpty()) && mainViewModel.getNearByGogoPlaces().isEmpty()) {
                 mainViewModel.setNearbyFoods(listOf())
             }
             if (it.isSuccess() && !it.data.isNullOrEmpty()) {
                 val list = it.data.toGogoPlaces().sortedBy { place -> place.distance }
                 mainViewModel.setNearbyFoods(list)
+
+                val gogoPlacesStr = FileUtil.gogoPlacesToJson(list)
+                Logger.d("sam00 gogoPlacesStr=$gogoPlacesStr")
+                FileUtil.writeToFile(gogoPlacesStr, MyApplication.appContext, "gogoplaces.txt")
             }
         }
 
