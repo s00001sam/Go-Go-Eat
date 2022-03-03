@@ -30,6 +30,7 @@ import com.sam.gogoeat.databinding.FragmentHomeBinding
 import com.sam.gogoeat.utils.FAEvent
 import com.sam.gogoeat.utils.FileUtil
 import com.sam.gogoeat.utils.UserManager
+import com.sam.gogoeat.utils.Util
 import com.sam.gogoeat.utils.Util.collectFlow
 import com.sam.gogoeat.utils.Util.gotoMap
 import com.sam.gogoeat.view.MainViewModel
@@ -112,11 +113,13 @@ class HomeFragment : BaseFragment() {
 
     private fun initViews() {
         addTags()
+        initRefresh()
         initRcyCollapse()
         setTabAndViewPager()
         setBottomSheet()
 
         binding.luckyWheelView.setOnClickListener {
+            if (binding.swRefresh.isRefreshing) return@setOnClickListener
             faTracker.logEvent(FAEvent.HOME_CLICK_WHEEL) {}
             binding.luckyWheelView.setList(mainViewModel.getNearByGogoPlaces())
             binding.luckyWheelView.setRandomIndex(mainViewModel.getRandomIndex())
@@ -132,6 +135,21 @@ class HomeFragment : BaseFragment() {
         binding.ivSearch.setOnClickListener {
             faTracker.logEvent(FAEvent.HOME_CLICK_SEARCH) {}
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+        }
+    }
+
+    private fun initRefresh() {
+        binding.swRefresh.setColorSchemeResources(
+            R.color.orange
+        )
+        binding.swRefresh.setProgressViewEndTarget(
+            true, Util.dip2px(requireContext(), 80f)
+        )
+        binding.swRefresh.setDistanceToTriggerSync(Util.dip2px(requireContext(), 100f))
+        binding.swRefresh.setOnRefreshListener {
+            mainViewModel.getNearbyFoods {
+                binding.swRefresh.isRefreshing = false
+            }
         }
     }
 
@@ -169,7 +187,13 @@ class HomeFragment : BaseFragment() {
         }
 
         mainViewModel.nearbyFoodResult.collectFlow(viewLifecycleOwner) {
-            if (it.isLoading()) showLoading() else dismissLoading()
+            if (it.isLoading() && !binding.swRefresh.isRefreshing) {
+                showLoading()
+            }
+            if (it.isFinished()) {
+                dismissLoading()
+                binding.swRefresh.isRefreshing = false
+            }
             if ((it.isNothing() || it.data.isNullOrEmpty()) && mainViewModel.getNearByGogoPlaces().isEmpty()) {
                 mainViewModel.setNearbyFoods(listOf())
             }
