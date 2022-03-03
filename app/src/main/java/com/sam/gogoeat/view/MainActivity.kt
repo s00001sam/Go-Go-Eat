@@ -12,17 +12,12 @@ import com.google.android.gms.location.*
 import com.sam.gogoeat.MyApplication
 import com.sam.gogoeat.R
 import com.sam.gogoeat.databinding.ActivityMainBinding
-import com.sam.gogoeat.utils.FileUtil
-import com.sam.gogoeat.utils.FileUtil.gogoPlacesToJson
 import com.sam.gogoeat.utils.FileUtil.jsonToGogoPlaces
 import com.sam.gogoeat.utils.FileUtil.readFromFile
-import com.sam.gogoeat.utils.FileUtil.writeToFile
 import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
-import com.sam.gogoeat.utils.Util
 import com.sam.gogoeat.utils.Util.checkHasPermission
 import com.sam.gogoeat.utils.Util.collectFlow
-import com.sam.gogoeat.utils.Util.getDinstance
 import com.sam.gogoeat.view.loading.LoadingDialog
 import dagger.hilt.android.AndroidEntryPoint
 

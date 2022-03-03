@@ -19,3 +19,4 @@ sam_google_play_keys.jks
 *.jks
 /app/sam_google_play_keys.jks
 /app/release/app-release.apk
+/app/release/app-release.aab

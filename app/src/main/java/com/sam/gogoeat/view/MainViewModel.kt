@@ -10,10 +10,7 @@ import com.sam.gogoeat.api.usecase.GetNearbyFoodsData
 import com.sam.gogoeat.api.usecase.InsertHistoryItem
 import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.data.place.PlaceData
-import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlace
-import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.data.place.PlaceReq
-import com.sam.gogoeat.utils.Logger
 import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
