@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity() {
     private fun initCacheList() {
         UserManager.getSpSetting()
         val savePlacesStr = readFromFile(MyApplication.appContext, "gogoplaces.txt")
+        Logger.d("savePlacesStr=$savePlacesStr")
         if (savePlacesStr.isNotEmpty()) {
             val savePlaces = jsonToGogoPlaces(savePlacesStr) ?: listOf()
             viewModel.setNearbyFoods(savePlaces)
@@ -71,13 +72,11 @@ class MainActivity : AppCompatActivity() {
     private fun initCollect() {
         viewModel.locationResult.collectFlow(this) {
             Logger.d("my location=${it.data}")
-            if (it.isSuccess() && it.data != null &&
-                it.data.getDinstance(UserManager.mySettingData.myLocation) > 500
-            ) {
-                UserManager.mySettingData.myLocation = it.data
-                UserManager.saveSpSetting()
-                if (viewModel.getNearByGogoPlaces().isEmpty()) {
-                    viewModel.getNearbyFoods()
+            if (it.isSuccess() && it.data != null) {
+                UserManager.setMyLocation(it.data)
+                if (!viewModel.firstGetLocation()) {
+                    viewModel.setFirstGetLocationOk()
+                    viewModel.getNearbyFoods(::dismissLoading)
                 }
             }
         }

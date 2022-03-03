@@ -13,6 +13,8 @@ import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlace
 import com.sam.gogoeat.data.place.PlaceData.Companion.toGogoPlaces
 import com.sam.gogoeat.data.place.PlaceReq
+import com.sam.gogoeat.utils.Logger
+import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -46,15 +48,24 @@ class MainViewModel @Inject constructor(
     private val _insertHistoryResult = MutableStateFlow<State<Long?>>(State.nothing())
     val insertHistoryResult : StateFlow<State<Long?>> = _insertHistoryResult
 
-    var firstGetLocation = false
-
     private var randomIndex: Int = 0
+    private var firstGetLocation = false
+
+    fun firstGetLocation() = firstGetLocation
+
+    fun setFirstGetLocationOk() {
+        firstGetLocation = true
+    }
 
     fun newHistoryShowFinish() {
         _newHistoryItem.value = null
     }
 
-    fun getNearbyFoods() {
+    fun getNearbyFoods(dismissLoading:()-> Unit) {
+        if (UserManager.isSameSetting()) { // 若條件相同且在上次位置附近則不打 API
+            dismissLoading.invoke()
+            return
+        }
         viewModelScope.launch {
             getNearbyFoodsData.getDataState(PlaceReq.create()).collect {
                 _nearbyFoodResult.value = it

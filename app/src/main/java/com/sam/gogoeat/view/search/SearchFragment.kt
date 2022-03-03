@@ -96,7 +96,8 @@ class SearchFragment : BaseFragment() {
         binding.btnSearch.setOnClickListener {
             faTracker.logEvent(FAEvent.SEARCH_GO) { param(FAParam.SEARCH_KEY, viewModel.keyWordStr.value) }
             viewModel.setData2UserManager()
-            mainViewModel.getNearbyFoods()
+            mainViewModel.getNearbyFoods(::dismissLoading)
+            showLoading()
             findNavController().navigateUp()
         }
     }
