@@ -42,7 +42,7 @@ class MainViewModelTest {
     @Test
     fun `get nearby place success`() = runBlocking {
         viewModel.nearbyFoodResult.test(5000) {
-            viewModel.getNearbyFoods()
+            viewModel.callNearbyAPI()
             val result1 = awaitItem()
             val result2 = awaitItem()
             val result3 = awaitItem()
@@ -58,7 +58,7 @@ class MainViewModelTest {
     fun `get nearby place when net error return net error`() = runBlocking {
         repository.setShouldReturnNetError(true)
         viewModel.nearbyFoodResult.test(5000) {
-            viewModel.getNearbyFoods()
+            viewModel.callNearbyAPI()
             awaitItem()
             awaitItem()
             val result3 = awaitItem()

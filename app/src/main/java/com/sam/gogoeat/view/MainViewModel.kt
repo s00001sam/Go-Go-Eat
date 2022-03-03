@@ -61,11 +61,15 @@ class MainViewModel @Inject constructor(
         _newHistoryItem.value = null
     }
 
-    fun getNearbyFoods(dismissLoading:()-> Unit) {
+    fun getNearbyFoods(dismissLoading:(()-> Unit)) {
         if (UserManager.isSameSetting()) { // 若條件相同且在上次位置附近則不打 API
             dismissLoading.invoke()
             return
         }
+        callNearbyAPI()
+    }
+
+    fun callNearbyAPI() {
         viewModelScope.launch {
             getNearbyFoodsData.getDataState(PlaceReq.create()).collect {
                 _nearbyFoodResult.value = it
