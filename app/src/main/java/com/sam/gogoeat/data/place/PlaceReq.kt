@@ -1,6 +1,7 @@
 package com.sam.gogoeat.data.place
 
 import com.sam.gogoeat.BuildConfig
+import com.sam.gogoeat.utils.KeyUtil
 import com.sam.gogoeat.utils.UserManager
 
 data class PlaceReq (
@@ -25,7 +26,7 @@ data class PlaceReq (
                     radius = distance,
                     type = if (onlyFindRestaurant) TYPE_EAT else null,
                     keyword = keyWord,
-                    key = BuildConfig.MAP_API_KEY,
+                    key = KeyUtil.decodeKey(BuildConfig.MAP_API_KEY),
                     opennow = if (isOpen) isOpen else null,
                     minprice = priceLevel.getPrice(true),
                     maxprice = priceLevel.getPrice(false),
