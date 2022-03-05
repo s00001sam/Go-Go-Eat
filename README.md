@@ -1,5 +1,5 @@
 # gogoEat
-(Developing) Don't need to think about what to eat every day anymore
+(Release) 不在需要思考要吃甚麼
 
 <a href=""><img src="https://i.imgur.com/B61ZlUR.png" width="150" height="60"></a>
 
