@@ -1,7 +1,7 @@
 # gogoEat
 (Release) 不在需要思考要吃甚麼
 
-<a href=""><img src="https://i.imgur.com/B61ZlUR.png" width="150" height="60"></a>
+<a href="https://play.google.com/store/apps/details?id=com.sam.gogoeat"><img src="https://i.imgur.com/B61ZlUR.png" width="150" height="60"></a>
 
 ### :pushpin:開發動機
 
