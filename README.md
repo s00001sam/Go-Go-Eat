@@ -1,8 +1,6 @@
 # gogoEat
 (Release) 不在需要思考要吃甚麼
 
-<a href="https://play.google.com/store/apps/details?id=com.sam.gogoeat"><img src="https://i.imgur.com/B61ZlUR.png" width="150" height="60"></a>
-
 ### :pushpin:開發動機
 
 是不是每天每餐都在想要吃甚麼呢 ?
