@@ -10,11 +10,9 @@ import com.sam.gogoeat.api.resp.MapResp
 import com.sam.gogoeat.data.GogoPlace
 import com.sam.gogoeat.data.place.PlaceData
 import com.sam.gogoeat.room.RoomDB
-import com.sam.gogoeat.utils.UserManager
 import com.sam.gogoeat.utils.Util
 import com.sam.gogoeat.view.MainActivity
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
@@ -49,7 +47,10 @@ class LocalDataSource(private val roomDB: RoomDB) : DataSource {
             override fun onLocationResult(locationResult: LocationResult) {
                 super.onLocationResult(locationResult)
                 val lastLocation = locationResult.lastLocation
-                val latlng = LatLng(lastLocation.latitude, lastLocation.longitude)
+                val latlng = LatLng(
+                    lastLocation?.latitude ?: 121.0,
+                    lastLocation?.longitude ?: 25.0,
+                )
                 trySend(latlng)
             }
         }

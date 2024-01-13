@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MapResp<T> (
-        val status: String? = null,
+        @Json(name = "status") val status: String? = null,
         @Json(name = "results") val data: @RawValue T? = null,
         @Json(name = "next_page_token") val nextPageToken: String? = null,
         @Json(name = "error_message") val error: String? = null

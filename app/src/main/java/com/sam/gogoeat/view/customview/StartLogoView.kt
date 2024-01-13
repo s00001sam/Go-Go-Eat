@@ -61,10 +61,10 @@ class StartLogoView @JvmOverloads constructor(
         paint?.shader = linearGradient
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        paint?.let { canvas?.drawPath(path, it) }
-        paint?.let { canvas?.drawPath(finalPath, it) }
+        paint?.let { canvas.drawPath(path, it) }
+        paint?.let { canvas.drawPath(finalPath, it) }
     }
 
     fun startGogoPath() {
@@ -119,15 +119,15 @@ class StartLogoView @JvmOverloads constructor(
             invalidate()
         }
         animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 if (isFinal) animationEnd?.invoke()
                 else startfinalPath()
             }
-            override fun onAnimationCancel(animation: Animator?) {}
-            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationCancel(animation: Animator) {}
+            override fun onAnimationRepeat(animation: Animator) {}
         })
         animator.start()
     }

@@ -35,7 +35,7 @@ class LuckyWheelBodyView @JvmOverloads constructor(
     }
 
     @SuppressLint("DrawAllocation")
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawBody(canvas)
         drawOutSide(canvas)
