@@ -52,10 +52,8 @@ class LotteryHistoryViewModelTest {
         viewModel.getHistoriesResult.test {
             val result1 = awaitItem()
             val result2 = awaitItem()
-            val result3 = awaitItem()
-            Truth.assertThat(result1.isNothing()).isTrue()
-            Truth.assertThat(result2.isLoading()).isTrue()
-            Truth.assertThat(result3.data?.isEmpty()).isTrue()
+            Truth.assertThat(result1.isLoading()).isTrue()
+            Truth.assertThat(result2.data?.isEmpty()).isTrue()
             cancelAndIgnoreRemainingEvents()
         }
     }
