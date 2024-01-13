@@ -15,12 +15,12 @@ class CoroutineTestRule(
     private val testDispatcher: ExecutorCoroutineDispatcher = Executors.newSingleThreadExecutor()
         .asCoroutineDispatcher()
 ) : TestWatcher() {
-    override fun starting(description: Description?) {
+    override fun starting(description: Description) {
         super.starting(description)
         Dispatchers.setMain(testDispatcher)//設定Main
     }
 
-    override fun finished(description: Description?) {
+    override fun finished(description: Description) {
         super.finished(description)
         Dispatchers.resetMain()//重設Main
     }
