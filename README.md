@@ -1,6 +1,8 @@
 # gogoEat
 (Release) 不在需要思考要吃甚麼
 
+[<img src="https://github.com/s00001sam/Go-Go-Eat/assets/61711644/76f39ff9-28ce-4318-a9d8-b63f219b9891" width=200>](https://play.google.com/store/apps/details?id=com.sam.gogoeat)
+
 ### :pushpin:開發動機
 
 是不是每天每餐都在想要吃甚麼呢 ?
@@ -36,17 +38,20 @@
 * Room 儲存歷史紀錄
 * Unit test with hilt and flow
 * gitHub Action CI
-* gitHub Action CD (等上架之後完成)
+
+### :pushpin:TODO
+- [ ] gitHub Action CD
 
 ### :pushpin:開發環境
 
-* Android Studio Android Studio Bumblebee | 2021.1.1
-* Android SDK 31
-* Gradle 7.0.4
+* targetSDK 34
+* Gradle 8.0.2
+* Kotlin 1.9.0
 
 ### :pushpin:版本更新
 
-* 1.0.0 這這是一款幫助使用者決定吃甚麼的應用程式
+* 1.0.0 初版
+* 1.0.1 升級 targetSDK 34 和 dependency
 
 ### :pushpin:聯絡資訊
 s00001sam@gmail.com
